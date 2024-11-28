@@ -1,0 +1,47 @@
+{
+    "PantsPageShop" : [
+        {
+            "item": "Classic Fit Pants",
+            "price": 49.99,
+            "image": "images/pants1.jpeg",
+            "attribute": "Front view of Classic Fit Pants",
+            "productDescription": "Comfortable and versatile classic fit pants suitable for any occasion."
+        },
+        {
+            "item": "Slim Fit Pants",
+            "price": 59.99,
+            "image": "images/pants2.jpeg",
+            "attribute": "Front view of Slim Fit Pants",
+            "productDescription": "Stylish slim fit pants that offer a modern and sleek look."
+        },
+        {
+            "item": "Relaxed Fit Pants",
+            "price": 54.99,
+            "image": "images/pants3.jpeg",
+            "attribute": "Front view of Relaxed Fit Pants",
+            "productDescription": "Relaxed fit pants that provide maximum comfort and ease of movement."
+        },
+        {
+            "item": "Skinny Fit Pants",
+            "price": 64.99,
+            "image": "images/pants4.jpeg",
+            "attribute": "Front view of Skinny Fit Pants",
+            "productDescription": "Trendy skinny fit pants that hug your body for a flattering silhouette."
+        },
+        {
+            "item": "Straight Fit Pants",
+            "price": 44.99,
+            "image": "images/pants5.jpeg",
+            "attribute": "Front view of Straight Fit Pants",
+            "productDescription": "Classic straight fit pants that offer a timeless and clean look."
+        },
+        {
+            "item": "Bootcut Fit Pants",
+            "price": 69.99,
+            "image": "images/pants6.jpeg",
+            "attribute": "Front view of Bootcut Fit Pants",
+            "productDescription": "Bootcut fit pants that are perfect for pairing with boots for a stylish look."
+        }
+    ],
+    "mainTitle" : "Pants"
+}
