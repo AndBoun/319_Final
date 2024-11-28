@@ -1,28 +1,53 @@
 const express = require('express');
-const { MongoClient } = require('mongodb');
 const cors = require('cors');
+const { MongoClient, ServerApiVersion } = require('mongodb');
+const path = require('path');
 
 const app = express();
 app.use(cors());
 
-
 const uri = 'mongodb+srv://coms3190:KtCbNpJx1ifdcqdJ@homepage.nvrtc.mongodb.net/?retryWrites=true&w=majority&appName=homepage';
-const client = new MongoClient(uri);
 
-async function testConnection() {
+// Serve static files from the public directory
+app.use(express.static(path.join(__dirname, 'public')));
+
+const client = new MongoClient(uri, {
+  serverApi: {
+    version: ServerApiVersion.v1,
+    strict: true,
+    deprecationErrors: true,
+  }
+});
+
+async function run() {
   try {
-    // Connect to the MongoDB cluster
-    await client.connect();
+    await client.connect(); // Connect to MongoDB
+    console.log("Successfully connected to MongoDB!");
 
-    // Ping the admin database to verify the connection
-    await client.db('admin').command({ ping: 1 });
-    console.log('✅ MongoDB connection successful!');
+    const db = client.db('products'); // Database name
+    const collection = db.collection('homepage'); // Collection name
+
+    // Endpoint to fetch homepage data
+    app.get('/homepage-data', async (req, res) => {
+      try {
+        const data = await collection.findOne({});
+        if (!data) {
+          res.status(404).json({ error: 'No data found in the homepage collection.' });
+          return;
+        }
+        res.json(data);
+      } catch (error) {
+        console.error('Error fetching homepage data:', error);
+        res.status(500).json({ error: 'Failed to fetch homepage data.' });
+      }
+    });
+
+    app.listen(8080, () => {
+      console.log('Backend server is running on http://localhost:8080');
+    });
   } catch (error) {
-    console.error('❌ Failed to connect to MongoDB:', error);
-  } finally {
-    // Close the connection
-    await client.close();
+    console.error('Error connecting to MongoDB:', error);
   }
 }
 
-testConnection();
+run().catch(console.dir);

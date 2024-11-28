@@ -4,10 +4,19 @@ const MainPicture = () => {
   const [mainImage, setMainImage] = useState(null);
 
   useEffect(() => {
-    fetch('/data.json')
-      .then(response => response.json())
-      .then(data => setMainImage(data.homePageMainImage))
-      .catch(error => console.error('Error fetching data:', error));
+    // Fetch homepage data from backend
+    fetch('http://localhost:8080/homepage-data')
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Failed to fetch data');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log('Fetched homepage data:', data); // Debugging log
+        setMainImage(data.homePageMainImage); // Assuming "homePageMainImage" is the field name in MongoDB
+      })
+      .catch((error) => console.error('Error fetching data:', error));
   }, []);
 
   return (
@@ -16,10 +25,16 @@ const MainPicture = () => {
         <div className="row">
           <div className="video-content open-up" data-aos="zoom-out">
             <div className="video-bg" id="main-background">
-              {mainImage && (
+              {mainImage ? (
                 <div className="video-image img-fluid">
-                  <img src={mainImage.image} alt={mainImage.attribute} className="video-image img-fluid" />
+                  <img
+                    src={mainImage.image} 
+                    alt={mainImage.attribute || 'Image'}
+                    className="video-image img-fluid"
+                  />
                 </div>
+              ) : (
+                <p>Loading...</p>
               )}
             </div>
           </div>

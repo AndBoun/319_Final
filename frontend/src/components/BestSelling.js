@@ -6,7 +6,7 @@ const BestSelling = () => {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
-    fetch('/data.json')
+    fetch('http://localhost:8080/homepage-data')
       .then(response => response.json())
       .then(data => setItems(data.homePageBestSellingImages))
       .catch(error => console.error('Error fetching data:', error));
@@ -26,7 +26,7 @@ const BestSelling = () => {
                 <div className="product-item image-zoom-effect link-effect">
                   <div className="image-holder">
                     <a href="/outerwear">
-                      <img src={`/${item.image}`} alt={item.attribute} className="product-image img-fluid" />
+                      <img src={item.image} alt={item.attribute} className="product-image img-fluid" />
                     </a>
                     <a href="/outerwear" className="btn-icon btn-wishlist">
                       <svg width="24" height="24" viewBox="0 0 24 24">
@@ -45,7 +45,6 @@ const BestSelling = () => {
               </div>
             ))}
           </div>
-          <div className="swiper-pagination"></div>
         </div>
         <div className="icon-arrow icon-arrow-left">
           <svg width="50" height="50" viewBox="0 0 24 24">
