@@ -18,7 +18,6 @@ import "swiper/css/pagination";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
-
 const BestSelling = () => {
   const [items, setItems] = useState([]);
 
@@ -61,7 +60,6 @@ const BestSelling = () => {
         setItems(data.homePageBestSellingImages);
         console.log("Fetched homepage data:", data.homePageBestSellingImages); // Debugging log
         console.log(items);
-
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -96,6 +94,7 @@ const BestSelling = () => {
                         alt={item.attribute}
                         className="product-image img-fluid"
                       />
+                    </a>
 
                     <div className="product-content">
                       <h5 className="text-uppercase fs-5 mt-3">
@@ -115,12 +114,11 @@ const BestSelling = () => {
               </div>
             ))}
           </div>
-        <div className="swiper-button-prev"></div>
-        <div className="swiper-button-next"></div>
+          <div className="swiper-button-prev"></div>
+          <div className="swiper-button-next"></div>
+        </div>
+        <div className="swiper-pagination"></div>
       </div>
-      <div className="swiper-pagination"></div>
-
-    </div>
     </section>
   );
 };
