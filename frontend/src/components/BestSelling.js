@@ -6,10 +6,17 @@ const BestSelling = () => {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:8080/homepage-data')
-      .then(response => response.json())
-      .then(data => setItems(data.homePageBestSellingImages))
-      .catch(error => console.error('Error fetching data:', error));
+    const fetchData = async () => {
+      try {
+        const response = await fetch('http://localhost:8080/homepage-data');
+        const data = await response.json();
+        setItems(data.homePageBestSellingImages);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
   }, []);
 
   return (
