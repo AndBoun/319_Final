@@ -966,11 +966,11 @@ a {
 }
 
 .background.pattern-bg {
-  background: url(images/pattern-bg.png) no-repeat;
+  /* background: url(images/pattern-bg.png) no-repeat; */
 }
 
 .background.normal-bg {
-  background: url(images/newsletter-image.jpg) no-repeat;
+  /* background: url(images/newsletter-image.jpg) no-repeat; */
 }
 
 /* large text */
