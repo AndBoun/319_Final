@@ -1,9 +1,9 @@
-import React from 'react';
-import Navbar from './components/Navbar';
-import BestSelling from './components/BestSelling';
-import MainPicture from './components/MainPicture';
-import Footer from './components/Footer';
-import './App.css';
+import React from "react";
+import Navbar from "./components/Navbar";
+import BestSelling from "./components/BestSelling";
+import MainPicture from "./components/MainPicture";
+import Footer from "./components/Footer";
+import "./App.css";
 
 function App() {
   return (
@@ -11,7 +11,7 @@ function App() {
       <Navbar />
       <MainPicture />
       <BestSelling />
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }
