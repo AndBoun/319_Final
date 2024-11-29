@@ -2,12 +2,11 @@ import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
-// import "bootstrap/dist/css/bootstrap.min.css";
-// import "../css/normalize.css";
-// import "../css/sign-in.css";
-// import "../css/swiper-bundle.min.css";
-// import "../css/vendor.css";
-// import "../css/styles/style.css";
+import "../css/normalize.css";
+import "../css/sign-in.css";
+import "../css/swiper-bundle.min.css";
+import "../css/vendor.css";
+import "../css/styles/style.css";
 
 import Swiper from "swiper";
 import { Navigation, Pagination } from "swiper/modules";
@@ -86,7 +85,7 @@ const BestSelling = () => {
               <div key={index} className="swiper-slide">
                 <div className="product-item image-zoom-effect link-effect">
                   <div className="image-holder">
-                    
+
                     {/* TODO */}
                     <a href="/outerwear">
                       <img
