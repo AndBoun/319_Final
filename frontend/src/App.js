@@ -11,7 +11,7 @@ function App() {
       <Navbar />
       <MainPicture />
       <BestSelling />
-      {/* <Footer /> */}
+      <Footer />
     </div>
   );
 }
