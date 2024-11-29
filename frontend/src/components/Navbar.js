@@ -2,6 +2,12 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
+import '../css/normalize.css';
+import '../css/sign-in.css';
+import '../css/swiper-bundle.min.css';
+import '../css/vendor.css';
+import '../css/styles/style.css';
+
 const Navbar = () => {
   return (
     <nav className="navbar navbar-expand-lg bg-light text-uppercase fs-6 p-3 border-bottom align-items-center">

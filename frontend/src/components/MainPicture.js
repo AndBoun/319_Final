@@ -1,7 +1,23 @@
 import React, { useEffect, useState } from "react";
 
+import "bootstrap/dist/css/bootstrap.min.css";
+import "../css/normalize.css";
+import "../css/sign-in.css";
+import "../css/swiper-bundle.min.css";
+import "../css/vendor.css";
+import "../css/styles/style.css";
+
+import AOS from "aos";
+import "aos/dist/aos.css";
+
+
 const MainPicture = () => {
   const [mainImage, setMainImage] = useState(null);
+
+  // Initialize AOS
+  useEffect(() => {
+    AOS.init();
+  }, []);
 
   useEffect(() => {
     const fetchMainImage = async () => {
@@ -17,6 +33,7 @@ const MainPicture = () => {
         console.error("Error fetching data:", error);
       }
     };
+
     fetchMainImage();
   }, []);
 
@@ -43,24 +60,6 @@ const MainPicture = () => {
       </div>
     </section>
   );
-
-  // return (
-  //   <div>
-  //     {mainImage ? (
-  //       <div className="video-image img-fluid">
-  //         <img
-  //           src={mainImage.image}
-  //           alt={mainImage.attribute || "Image"}
-  //           className="video-image img-fluid"
-  //         />
-  //       </div>
-  //     ) : (
-  //       <p>Loading...</p>
-  //     )}
-  //   </div>
-  // );
-
-
 };
 
 export default MainPicture;
