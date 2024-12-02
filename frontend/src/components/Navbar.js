@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
@@ -14,9 +15,9 @@ const Navbar = () => {
       <div className="container-fluid">
         <div className="row justify-content-between align-items-center w-100">
           <div className="col-auto">
-            <a className="navbar-brand text-white" href="/">
+            <Link className="navbar-brand text-white" to="/">
               <img src={`${process.env.PUBLIC_URL}/myotherimages/logo.png`} alt="logo" style={{ width: '200px', height: 'auto' }} />
-            </a>
+            </Link>
           </div>
           <div className="col-auto">
             <button className="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
@@ -32,15 +33,15 @@ const Navbar = () => {
                   <li className="nav-item dropdown">
                     <a className="nav-link dropdown-toggle active" href="#" id="dropdownHome" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Home</a>
                     <ul className="dropdown-menu list-unstyled" aria-labelledby="dropdownHome">
-                      <li><a href="/andrew" className="dropdown-item item-anchor">Andrew Boun</a></li>
-                      <li><a href="/kai" className="dropdown-item item-anchor">Kai Quach</a></li>
+                      <li><Link to="/andrew" className="dropdown-item item-anchor">Andrew Boun</Link></li>
+                      <li><Link to="/kai" className="dropdown-item item-anchor">Kai Quach</Link></li>
                     </ul>
                   </li>
                   <li className="nav-item dropdown">
                     <a className="nav-link dropdown-toggle" href="#" id="dropdownShop" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Shop</a>
                     <ul className="dropdown-menu list-unstyled" aria-labelledby="dropdownShop">
-                      <li><a href="/outerwear" className="dropdown-item item-anchor">Outerwear</a></li>
-                      <li><a href="/pants" className="dropdown-item item-anchor">Pants</a></li>
+                      <li><Link to="/outerwear" className="dropdown-item item-anchor">Outerwear</Link></li>
+                      <li><Link to="/pants" className="dropdown-item item-anchor">Pants</Link></li>
                     </ul>
                   </li>
                 </ul>

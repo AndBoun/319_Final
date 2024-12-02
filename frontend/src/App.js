@@ -1,18 +1,26 @@
 import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import BestSelling from "./components/BestSelling";
 import MainPicture from "./components/MainPicture";
 import Footer from "./components/Footer";
-
+import Kai from "./components/Kai";
+import Andrew from "./components/Andrew";
 
 function App() {
   return (
-    <div>
-      <Navbar />
-      <MainPicture />
-      <BestSelling />
-      <Footer />
-    </div>
+    <Router>
+      <div>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<MainPicture />} />
+          <Route path="/best-selling" element={<BestSelling />} />
+          <Route path="/kai" element={<Kai />} />
+          <Route path="/andrew" element={<Andrew />} />
+        </Routes>
+        <Footer />
+      </div>
+    </Router>
   );
 }
 
