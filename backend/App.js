@@ -26,7 +26,7 @@ async function run() {
 
     const db = client.db('products'); // Database name
     const collection = db.collection('homepage'); // Collection name
-
+    const outerwearCollection = db.collection('Outerwear');
     // Endpoint to fetch homepage data
     app.get('/homepage-data', async (req, res) => {
       try {
@@ -39,6 +39,20 @@ async function run() {
       } catch (error) {
         console.error('Error fetching homepage data:', error);
         res.status(500).json({ error: 'Failed to fetch homepage data.' });
+      }
+    });
+
+    app.get('/outerwear-data', async (req, res) => {
+      try {
+        const data = await outerwearCollection.find({}).toArray();
+        if (!data || data.length === 0) {
+          res.status(404).json({ error: 'No data found in the outerwear collection.' });
+          return;
+        }
+        res.json(data);
+      } catch (error) {
+        console.error('Error fetching outerwear data:', error);
+        res.status(500).json({ error: 'Failed to fetch outerwear data.' });
       }
     });
 

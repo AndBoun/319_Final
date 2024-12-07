@@ -6,6 +6,8 @@ import MainPicture from "./components/MainPicture";
 import Footer from "./components/Footer";
 import Kai from "./components/Kai";
 import Andrew from "./components/Andrew";
+import ContactUs from "./components/ContactUs";
+import Outerwear from "./components/Outerwear";
 
 function App() {
   return (
@@ -13,10 +15,19 @@ function App() {
       <div>
         <Navbar />
         <Routes>
-          <Route path="/" element={<MainPicture />} />
-          <Route path="/best-selling" element={<BestSelling />} />
+          <Route
+            path="/"
+            element={
+              <>
+                <MainPicture />
+                <BestSelling />
+              </>
+            }
+          />
           <Route path="/kai" element={<Kai />} />
           <Route path="/andrew" element={<Andrew />} />
+          <Route path="/contactUs" element={<ContactUs />} />
+          <Route path="/outerwear" element={<Outerwear />} />
         </Routes>
         <Footer />
       </div>

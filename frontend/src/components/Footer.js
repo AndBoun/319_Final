@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { Link } from 'react-router-dom';
 const Footer = () => {
   return (
     <footer id="footer" className="mt-5">
@@ -9,13 +9,13 @@ const Footer = () => {
           <div className="col-md-3 col-sm-6 d-flex flex-column align-items-center">
             <div className="footer-menu footer-menu-001">
               <div className="footer-intro mb-4">
-                <a href="homepage.html">
+              <Link className="navbar-brand text-white" to="/">
                   <img
                     src="./myotherimages/logo.png"
                     alt="logo"
                     style={{ width: '200px', height: 'auto' }}
                   />
-                </a>
+                </Link>
               </div>
               <p></p>
               {/* Social Media Links */}
@@ -92,13 +92,13 @@ const Footer = () => {
               <h5 className="widget-title text-uppercase mb-4">Quick Links</h5>
               <ul className="menu-list list-unstyled text-uppercase border-animation-left fs-6">
                 <li className="menu-item">
-                  <a href="homepage.html" className="item-anchor">Home</a>
+                  <Link to="/" className="item-anchor">Home</Link>
                 </li>
                 <li className="menu-item">
-                  <a href="andrew.html" className="item-anchor">Andrew Boun</a>
+                  <Link to="/andrew" className="item-anchor">Andrew Boun</Link>
                 </li>
                 <li className="menu-item">
-                  <a href="kai.html" className="item-anchor">Kai Quach</a>
+                  <Link to="/kai" className="item-anchor">Kai Quach</Link>
                 </li>
               </ul>
             </div>
@@ -110,7 +110,7 @@ const Footer = () => {
               <h5 className="widget-title text-uppercase mb-4">Help & Info</h5>
               <ul className="menu-list list-unstyled text-uppercase border-animation-left fs-6">
                 <li className="menu-item">
-                  <a href="contactUs.html" className="item-anchor">Contact Us</a>
+                  <Link to="/contactUs" className="item-anchor">Contact Us</Link>
                 </li>
               </ul>
             </div>

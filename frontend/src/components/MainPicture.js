@@ -27,7 +27,7 @@ const MainPicture = () => {
           throw new Error("Failed to fetch data");
         }
         const data = await response.json();
-        console.log("Fetched homepage data:", data); // Debugging log
+        console.log("Fetched homeMainPicture data:", data); // Debugging log
         setMainImage(data.homePageMainImage); // Assuming "homePageMainImage" is the field name in MongoDB
       } catch (error) {
         console.error("Error fetching data:", error);

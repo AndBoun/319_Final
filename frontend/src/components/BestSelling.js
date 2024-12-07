@@ -21,6 +21,7 @@ const BestSelling = () => {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
+    console.log("Initializing Swiper");
     const swiper = new Swiper(".product-swiper", {
       modules: [Navigation, Pagination],
       slidesPerView: 4,
@@ -40,32 +41,36 @@ const BestSelling = () => {
         1200: { slidesPerView: 4 },
       },
     });
-
+  
     return () => {
       swiper.destroy();
     };
   }, []);
-
-  // Initialize AOS
+  
   useEffect(() => {
+    console.log("Initializing AOS");
     AOS.init();
   }, []);
-
+  
   useEffect(() => {
+    console.log("Fetching data");
     const fetchData = async () => {
       try {
         const response = await fetch("http://localhost:8080/homepage-data");
         const data = await response.json();
         setItems(data.homePageBestSellingImages);
         console.log("Fetched homepage data:", data.homePageBestSellingImages); // Debugging log
-        console.log(items);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
-
+  
     fetchData();
   }, []);
+  
+  useEffect(() => {
+    console.log("Updated items state:", items); // Log updated state
+  }, [items]);
 
   return (
     <section
