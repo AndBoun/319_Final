@@ -8,6 +8,7 @@ import Kai from "./components/Kai";
 import Andrew from "./components/Andrew";
 import ContactUs from "./components/ContactUs";
 import Outerwear from "./components/Outerwear";
+import Pants from "./components/Pants";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           <Route path="/andrew" element={<Andrew />} />
           <Route path="/contactUs" element={<ContactUs />} />
           <Route path="/outerwear" element={<Outerwear />} />
+          <Route path="/pants" element={<Pants />} />
         </Routes>
         <Footer />
       </div>

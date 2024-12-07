@@ -25,11 +25,10 @@ async function run() {
     console.log("Successfully connected to MongoDB!");
 
     const db = client.db('products'); // Database name
-    const collection = db.collection('homepage'); // Collection name
-    const outerwearCollection = db.collection('Outerwear');
     // Endpoint to fetch homepage data
     app.get('/homepage-data', async (req, res) => {
       try {
+        const collection = db.collection('homepage');
         const data = await collection.findOne({});
         if (!data) {
           res.status(404).json({ error: 'No data found in the homepage collection.' });
@@ -44,7 +43,10 @@ async function run() {
 
     app.get('/outerwear-data', async (req, res) => {
       try {
-        const data = await outerwearCollection.find({}).toArray();
+        const collection = db.collection('Outerwear');
+        console.log("Fetching data from 'Outerwear' collection"); // Debugging log
+        const data = await collection.find({}).toArray();
+        console.log("Fetched data:", data); // Debugging log
         if (!data || data.length === 0) {
           res.status(404).json({ error: 'No data found in the outerwear collection.' });
           return;
@@ -55,6 +57,24 @@ async function run() {
         res.status(500).json({ error: 'Failed to fetch outerwear data.' });
       }
     });
+
+    app.get('/pants-data', async (req, res) => {
+      try {
+        const collection = db.collection('Pants');
+        console.log("Fetching data from 'Pants' collection"); // Debugging log
+        const data = await collection.find({}).toArray();
+        console.log("Fetched data:", data); // Debugging log
+        if (!data || data.length === 0) {
+          res.status(404).json({ error: 'No data found in the pants collection.' });
+          return;
+        }
+        res.json(data);
+      } catch (error) {
+        console.error('Error fetching pants data:', error);
+        res.status(500).json({ error: 'Failed to fetch pants data.' });
+      }
+    });
+
 
     app.listen(8080, () => {
       console.log('Backend server is running on http://localhost:8080');

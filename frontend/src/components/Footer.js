@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+
 const Footer = () => {
   return (
     <footer id="footer" className="mt-5">
@@ -21,7 +22,7 @@ const Footer = () => {
               {/* Social Media Links */}
               <div className="social-links">
                 <ul className="list-unstyled d-flex justify-content-center gap-3">
-                  <li>
+                 <li>
                     <a
                       href="https://www.facebook.com"
                       className="text-secondary"
