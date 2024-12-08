@@ -35,6 +35,32 @@ body {
   --bs-link-hover-color: #111;
   --bs-link-hover-color-rgb: 17, 17, 17;
 }
+.sticky-navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1030;
+  background-color: white; /* Matches the navbar background */
+  padding: 0.5rem 1rem; /* Smaller padding for a compact height */
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* Optional: Shadow for separation */
+}
+
+.sticky-navbar .navbar-brand img {
+  max-height: 200px; /* Reduce logo size */
+}
+
+.sticky-navbar .navbar-nav .nav-link {
+  font-size: 0.9rem; /* Reduce font size for nav items */
+  padding: 0.5rem 0.75rem; /* Smaller padding for nav links */
+}
+
+.sticky-navbar .navbar-toggler {
+  padding: 0.25rem 0.5rem; /* Reduce size of toggle button */
+}
+
+.sticky-navbar .offcanvas {
+  padding: 0.5rem; /* Compact offcanvas content padding */
+}
+
 
 body {
   letter-spacing: 0.03rem;

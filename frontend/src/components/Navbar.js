@@ -15,7 +15,7 @@ const Navbar = ({cartItems, total}) => {
 
   return (
     <>
-    <nav className="navbar navbar-expand-lg bg-light text-uppercase fs-6 p-3 border-bottom align-items-center">
+    <nav className="navbar navbar-expand-lg bg-light text-uppercase fs-6 p-3 border-bottom align-items-center sticky-navbar">
       <div className="container-fluid">
         <div className="row justify-content-between align-items-center w-100">
           <div className="col-auto">
@@ -56,11 +56,17 @@ const Navbar = ({cartItems, total}) => {
                     </Link>
                   </li>
 
-                  <li className="nav-item">
+                  <li className="nav-item position-relative">
                     <button className="btn btn-link nav-link" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">
                       <svg className="bi" width="24" height="24" fill="currentColor">
                         <use xlinkHref="#cart" />
                       </svg>
+                      {cartItems.length > 0 && (
+                        <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary">
+                          {cartItems.length}
+                          <span className="visually-hidden">items in cart</span>
+                        </span>
+                      )}
                     </button>
                   </li>
                 </ul>
