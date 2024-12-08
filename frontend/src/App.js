@@ -9,6 +9,7 @@ import Andrew from "./components/Andrew";
 import ContactUs from "./components/ContactUs";
 import Outerwear from "./components/Outerwear";
 import Pants from "./components/Pants";
+import LoginPage from "./components/LoginPage";
 
 function App() {
   return (
@@ -27,9 +28,11 @@ function App() {
           />
           <Route path="/kai" element={<Kai />} />
           <Route path="/andrew" element={<Andrew />} />
+
           <Route path="/contactUs" element={<ContactUs />} />
           <Route path="/outerwear" element={<Outerwear />} />
           <Route path="/pants" element={<Pants />} />
+          <Route path="/login" element={<LoginPage />} />
         </Routes>
         <Footer />
       </div>
