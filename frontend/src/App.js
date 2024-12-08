@@ -9,6 +9,8 @@ import ContactUs from "./components/ContactUs";
 import Outerwear from "./components/Outerwear";
 import Pants from "./components/Pants";
 import LoginPage from "./components/LoginPage";
+import Register from "./components/Register";
+import ForgotPassword from "./components/ForgotPassword";
 import Footer from "./components/Footer";
 
 function App() {
@@ -40,6 +42,8 @@ function App() {
           <Route path="/outerwear" element={<Outerwear addToCart={addToCart} />} />
           <Route path="/pants" element={<Pants addToCart={addToCart} />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/recover-password" element={<ForgotPassword />} />
         </Routes>
         <Footer />
       </div>

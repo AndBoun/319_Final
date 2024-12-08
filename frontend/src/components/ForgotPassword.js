@@ -3,16 +3,19 @@ import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-const LoginPage = () => {
+const ForgotPassword = () => {
   const { 
     register, 
     handleSubmit,
+    watch,
     formState: { errors }
   } = useForm();
 
-  const onLogin = (data) => {
-    console.log("Login attempt:", data);
+  const onSubmit = (data) => {
+    console.log("Password reset attempt:", data);
   };
+
+  const password = watch("newPassword");
 
   return (
     <div className="container mt-5">
@@ -20,8 +23,8 @@ const LoginPage = () => {
         <div className="col-md-6 col-lg-4">
           <div className="card shadow">
             <div className="card-body">
-              <h2 className="card-title text-center mb-4">Login</h2>
-              <form onSubmit={handleSubmit(onLogin)}>
+              <h2 className="card-title text-center mb-4">Reset Password</h2>
+              <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="mb-3">
                   <label className="form-label">Email</label>
                   <input
@@ -39,33 +42,44 @@ const LoginPage = () => {
                   )}
                 </div>
                 <div className="mb-3">
-                  <label className="form-label">Password</label>
+                  <label className="form-label">New Password</label>
                   <input
                     type="password"
-                    className={`form-control ${errors.password ? 'is-invalid' : ''}`}
-                    {...register("password", {
-                      required: "Password is required",
+                    className={`form-control ${errors.newPassword ? 'is-invalid' : ''}`}
+                    {...register("newPassword", {
+                      required: "New password is required",
                       minLength: {
                         value: 6,
                         message: "Password must be at least 6 characters"
                       }
                     })}
                   />
-                  {errors.password && (
-                    <div className="invalid-feedback">{errors.password.message}</div>
+                  {errors.newPassword && (
+                    <div className="invalid-feedback">{errors.newPassword.message}</div>
+                  )}
+                </div>
+                <div className="mb-3">
+                  <label className="form-label">Confirm New Password</label>
+                  <input
+                    type="password"
+                    className={`form-control ${errors.confirmPassword ? 'is-invalid' : ''}`}
+                    {...register("confirmPassword", {
+                      required: "Please confirm your password",
+                      validate: value => 
+                        value === password || "The passwords do not match"
+                    })}
+                  />
+                  {errors.confirmPassword && (
+                    <div className="invalid-feedback">{errors.confirmPassword.message}</div>
                   )}
                 </div>
                 <button type="submit" className="btn btn-primary w-100 mb-3">
-                  Login
+                  Reset Password
                 </button>
-                <div className="text-center">
-                  <Link to="/recover-password" className="text-decoration-none">
-                    Forgot password?
-                  </Link>
-                </div>
                 <div className="text-center mt-3">
-                  <span className="text-muted">Don't have an account? </span>
-                  <Link to="/register">Create one</Link>
+                  <Link to="/login" className="text-decoration-none">
+                    Back to Login
+                  </Link>
                 </div>
               </form>
             </div>
@@ -76,4 +90,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default ForgotPassword;

@@ -3,15 +3,15 @@ import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-const LoginPage = () => {
+const Register = () => {
   const { 
     register, 
     handleSubmit,
     formState: { errors }
   } = useForm();
 
-  const onLogin = (data) => {
-    console.log("Login attempt:", data);
+  const onSubmit = (data) => {
+    console.log("Registration attempt:", data);
   };
 
   return (
@@ -20,8 +20,8 @@ const LoginPage = () => {
         <div className="col-md-6 col-lg-4">
           <div className="card shadow">
             <div className="card-body">
-              <h2 className="card-title text-center mb-4">Login</h2>
-              <form onSubmit={handleSubmit(onLogin)}>
+              <h2 className="card-title text-center mb-4">Create Account</h2>
+              <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="mb-3">
                   <label className="form-label">Email</label>
                   <input
@@ -56,16 +56,11 @@ const LoginPage = () => {
                   )}
                 </div>
                 <button type="submit" className="btn btn-primary w-100 mb-3">
-                  Login
+                  Create Account
                 </button>
-                <div className="text-center">
-                  <Link to="/recover-password" className="text-decoration-none">
-                    Forgot password?
-                  </Link>
-                </div>
                 <div className="text-center mt-3">
-                  <span className="text-muted">Don't have an account? </span>
-                  <Link to="/register">Create one</Link>
+                  <span className="text-muted">Already have an account? </span>
+                  <Link to="/login">Login here</Link>
                 </div>
               </form>
             </div>
@@ -76,4 +71,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default Register;
