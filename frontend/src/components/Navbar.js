@@ -9,15 +9,8 @@ import '../css/swiper-bundle.min.css';
 import '../css/vendor.css';
 import '../css/styles/style.css';
 
-const Navbar = () => {
+const Navbar = ({cartItems, total}) => {
 
-  const [cartItems, setCartItems] = useState([]);
-  const [total, setTotal] = useState(0);
-
-  const addToCart = (item) => {
-    setCartItems([...cartItems, item]);
-    setTotal(total + item.price);
-  };
 
 
   return (
@@ -86,33 +79,21 @@ const Navbar = () => {
           <div className="order-md-last">
             <h4 className="d-flex justify-content-between align-items-center mb-3">
               <span className="text-primary">Your cart</span>
-              <span className="badge bg-primary rounded-pill">XXXX</span>
+              <span className="badge bg-primary rounded-pill">{cartItems.length}</span>
             </h4>
             <ul className="list-group mb-3">
-              <li className="list-group-item d-flex justify-content-between lh-sm">
-                <div>
-                  <h6 className="my-0">Growers cider</h6>
-                  <small className="text-body-secondary">Brief description</small>
-                </div>
-                <span className="text-body-secondary">$12</span>
-              </li>
-              <li className="list-group-item d-flex justify-content-between lh-sm">
-                <div>
-                  <h6 className="my-0">Fresh grapes</h6>
-                  <small className="text-body-secondary">Brief description</small>
-                </div>
-                <span className="text-body-secondary">$8</span>
-              </li>
-              <li className="list-group-item d-flex justify-content-between lh-sm">
-                <div>
-                  <h6 className="my-0">Heinz tomato ketchup</h6>
-                  <small className="text-body-secondary">Brief description</small>
-                </div>
-                <span className="text-body-secondary">$5</span>
-              </li>
+              {cartItems.map((item, index) => (
+                <li key={index} className="list-group-item d-flex justify-content-between lh-sm">
+                  <div>
+                    <h6 className="my-0">{item.name}</h6>
+                    <small className="text-body-secondary">{item.description}</small>
+                  </div>
+                  <span className="text-body-secondary">${item.price}</span>
+                </li>
+              ))}
               <li className="list-group-item d-flex justify-content-between">
                 <span>Total (USD)</span>
-                <strong>$20</strong>
+                <strong>${total}</strong>
               </li>
             </ul>
             <button className="w-100 btn btn-primary btn-lg" type="submit">Continue to Checkout</button>

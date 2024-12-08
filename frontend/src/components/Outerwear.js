@@ -6,8 +6,7 @@ import "../css/styles/style.css";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
-
-const Outerwear = () => {
+const Outerwear = ({ addToCart }) => {
   const [outerwearItems, setOuterwearItems] = useState([]);
 
   useEffect(() => {
@@ -32,10 +31,6 @@ const Outerwear = () => {
     };
     fetchData();
   }, []);
-
-  useEffect(() => {
-    console.log("Updated items state:", outerwearItems);
-  }, [outerwearItems]);
 
   return (
     <section className="categories overflow-hidden">
@@ -68,9 +63,16 @@ const Outerwear = () => {
                         <Link to="/outerwear">{element.item}</Link>
                       </h5>
                       <p>{element.productDescription}</p>
-                      <a href="#" className="text-decoration-none" data-after="Add to cart">
-                        <span>${element.price}</span>
-                      </a>
+                      <button
+                        className="btn btn-primary"
+                        onClick={() => addToCart({
+                          name: element.item,
+                          description: element.productDescription,
+                          price: element.price
+                        })}
+                      >
+                        Add to Cart
+                      </button>
                     </div>
                   </div>
                 </div>

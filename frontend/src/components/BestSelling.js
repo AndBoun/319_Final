@@ -106,9 +106,9 @@ const BestSelling = () => {
                       </h5>
                       <p>{item.productDescription}</p>
                       <a
-                        href="/"
+                        href="/outerwear"
                         className="text-decoration-none"
-                        data-after="Add to cart"
+                        data-after="View Product"
                       >
                         <span>${item.price}</span>
                       </a>
