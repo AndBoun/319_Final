@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -10,10 +10,33 @@ const ForgotPassword = () => {
     watch,
     formState: { errors }
   } = useForm();
+  const [serverError, setServerError] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
 
-  const onSubmit = (data) => {
-    console.log("Password reset attempt:", data);
+  const onSubmit = async (data) => {
+    try {
+      const response = await fetch('http://localhost:8080/forgot-password', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+      if (response.ok) {
+        setSuccessMessage('Password reset successful. You can now log in with your new password.');
+        setServerError('');
+      } else {
+        const result = await response.json();
+        setServerError(result.error); // Set the server error message
+        setSuccessMessage('');
+      }
+    } catch (error) {
+      console.error("Error resetting password:", error);
+      setServerError('Failed to reset password'); // Set a generic error message
+      setSuccessMessage('');
+    }
   };
+
 
   const password = watch("newPassword");
 
@@ -73,6 +96,16 @@ const ForgotPassword = () => {
                     <div className="invalid-feedback">{errors.confirmPassword.message}</div>
                   )}
                 </div>
+                {serverError && (
+                  <div className="alert alert-danger" role="alert">
+                    {serverError}
+                  </div>
+                )}
+                {successMessage && (
+                  <div className="alert alert-success" role="alert">
+                    {successMessage}
+                  </div>
+                )}
                 <button type="submit" className="btn btn-primary w-100 mb-3">
                   Reset Password
                 </button>

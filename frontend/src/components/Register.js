@@ -1,5 +1,5 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, {useState} from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -9,9 +9,29 @@ const Register = () => {
     handleSubmit,
     formState: { errors }
   } = useForm();
-
-  const onSubmit = (data) => {
-    console.log("Registration attempt:", data);
+  const navigate = useNavigate();
+  const [serverError, setServerError] = useState('');
+  const onSubmit = async (data) => {
+    try {
+      const response = await fetch('http://localhost:8080/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+      if (response.ok) {
+        console.log("Registration successful");
+        navigate('/login'); // Redirect to login page after successful registration
+      } else {
+        const result = await response.json();
+        setServerError(result.error); // Set the server error message
+        console.log("Registration failed:", result.error);
+      }
+    } catch (error) {
+      console.error("Error registering user:", error);
+      setServerError('Failed to register user'); // Set a generic error message
+    }
   };
 
   return (
@@ -55,6 +75,11 @@ const Register = () => {
                     <div className="invalid-feedback">{errors.password.message}</div>
                   )}
                 </div>
+                {serverError && (
+                  <div className="alert alert-danger" role="alert">
+                    {serverError}
+                  </div>
+                )}
                 <button type="submit" className="btn btn-primary w-100 mb-3">
                   Create Account
                 </button>

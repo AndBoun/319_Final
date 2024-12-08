@@ -1,5 +1,5 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -9,9 +9,32 @@ const LoginPage = () => {
     handleSubmit,
     formState: { errors }
   } = useForm();
+  const navigate = useNavigate();
+  const [serverError, setServerError] = useState('');
 
-  const onLogin = (data) => {
-    console.log("Login attempt:", data);
+  const onSubmit = async (data) => {
+    try {
+      const response = await fetch('http://localhost:8080/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+      if (response.ok) {
+        const result = await response.json();
+        localStorage.setItem('token', result.token); // Store the JWT in local storage
+        console.log("Login successful");
+        navigate('/account'); // Redirect to account page after successful login
+      } else {
+        const result = await response.json();
+        setServerError(result.error); // Set the server error message
+        console.log("Login failed:", result.error);
+      }
+    } catch (error) {
+      console.error("Error logging in:", error);
+      setServerError('Failed to log in'); // Set a generic error message
+    }
   };
 
   return (
@@ -21,7 +44,7 @@ const LoginPage = () => {
           <div className="card shadow">
             <div className="card-body">
               <h2 className="card-title text-center mb-4">Login</h2>
-              <form onSubmit={handleSubmit(onLogin)}>
+              <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="mb-3">
                   <label className="form-label">Email</label>
                   <input
@@ -55,17 +78,22 @@ const LoginPage = () => {
                     <div className="invalid-feedback">{errors.password.message}</div>
                   )}
                 </div>
+                {serverError && (
+                  <div className="alert alert-danger" role="alert">
+                    {serverError}
+                  </div>
+                )}
                 <button type="submit" className="btn btn-primary w-100 mb-3">
                   Login
                 </button>
-                <div className="text-center">
-                  <Link to="/recover-password" className="text-decoration-none">
-                    Forgot password?
-                  </Link>
-                </div>
                 <div className="text-center mt-3">
                   <span className="text-muted">Don't have an account? </span>
-                  <Link to="/register">Create one</Link>
+                  <Link to="/register">Register here</Link>
+                </div>
+                <div className="text-center mt-3">
+                  <Link to="/forgot-password" className="text-decoration-none">
+                    Forgot Password?
+                  </Link>
                 </div>
               </form>
             </div>

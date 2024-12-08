@@ -12,6 +12,7 @@ import LoginPage from "./components/LoginPage";
 import Register from "./components/Register";
 import ForgotPassword from "./components/ForgotPassword";
 import Footer from "./components/Footer";
+import AccountPage from "./components/AccountPage";
 
 function App() {
   const [cartItems, setCartItems] = useState([]);
@@ -44,6 +45,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<Register />} />
           <Route path="/recover-password" element={<ForgotPassword />} />
+          <Route path="/account" element={<AccountPage />} />
         </Routes>
         <Footer />
       </div>

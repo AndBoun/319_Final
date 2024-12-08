@@ -2,12 +2,14 @@ const express = require('express');
 const cors = require('cors');
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const path = require('path');
-
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const app = express();
+
 app.use(cors());
-
+app.use(express.json());
 const uri = 'mongodb+srv://coms3190:KtCbNpJx1ifdcqdJ@homepage.nvrtc.mongodb.net/?retryWrites=true&w=majority&appName=homepage';
-
+const JWT_SECRET = 'fortnite';
 // Serve static files from the public directory
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -25,7 +27,58 @@ async function run() {
     console.log("Successfully connected to MongoDB!");
 
     const db = client.db('products'); // Database name
-    // Endpoint to fetch homepage data
+    const usersDb = client.db('Users'); // Database name
+    app.post('/register', async (req, res) => {
+      try {
+        const { email, password } = req.body;
+        const collection = usersDb.collection('users');
+        
+        // Check if the email is already used
+        const existingUser = await collection.findOne({ email });
+        if (existingUser) {
+          return res.status(400).json({ error: 'Email is already used' });
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 10); // Hash the password
+        const result = await collection.insertOne({ email, password: hashedPassword });
+        res.status(201).json({ message: 'User registered successfully', userId: result.insertedId });
+      } catch (error) {
+        console.error('Error registering user:', error);
+        res.status(500).json({ error: 'Failed to register user' });
+      }
+    });
+
+    const authenticateToken = (req, res, next) => {
+      const token = req.headers['authorization'];
+      if (!token) return res.status(401).json({ error: 'Access denied' });
+
+      jwt.verify(token, JWT_SECRET, (err, user) => {
+        if (err) return res.status(403).json({ error: 'Invalid token' });
+        req.user = user;
+        next();
+      });
+    };
+
+    app.post('/login', async (req, res) => {
+      try {
+        const { email, password } = req.body;
+        const collection = usersDb.collection('users');
+        const user = await collection.findOne({ email });
+        if (!user) {
+          return res.status(401).json({ error: 'Invalid email or password' });
+        }
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+        if (!isPasswordValid) {
+          return res.status(401).json({ error: 'Invalid email or password' });
+        }
+        res.status(200).json({ message: 'Login successful', userId: user._id });
+      } catch (error) {
+        console.error('Error logging in user:', error);
+        res.status(500).json({ error: 'Failed to log in user' });
+      }
+    });
+
+    
     app.get('/homepage-data', async (req, res) => {
       try {
         const collection = db.collection('homepage');
@@ -41,6 +94,38 @@ async function run() {
       }
     });
 
+    app.put('/forgot-password', async (req, res) => {
+      try {
+        const { email, newPassword } = req.body;
+        const collection = usersDb.collection('users');
+        const user = await collection.findOne({ email });
+        if (!user) {
+          return res.status(404).json({ error: 'User not found' });
+        }
+        const hashedPassword = await bcrypt.hash(newPassword, 10); // Hash the new password
+        await collection.updateOne({ email }, { $set: { password: hashedPassword } });
+        res.status(200).json({ message: 'Password reset successful' });
+      } catch (error) {
+        console.error('Error resetting password:', error);
+        res.status(500).json({ error: 'Failed to reset password' });
+      }
+
+  });
+
+    app.get('/account', async (req, res) => {
+      try {
+        // Replace with actual logic to fetch account information and orders
+        const accountInfo = { email: 'user@example.com' };
+        const orders = [
+          { id: '123', items: ['Item 1', 'Item 2'], total: 50 },
+          { id: '124', items: ['Item 3'], total: 20 },
+        ];
+        res.status(200).json({ accountInfo, orders });
+      } catch (error) {
+        console.error('Error fetching account data:', error);
+        res.status(500).json({ error: 'Failed to fetch account data' });
+      }
+    });
     app.get('/outerwear-data', async (req, res) => {
       try {
         const collection = db.collection('Outerwear');
