@@ -10,8 +10,17 @@ import '../css/vendor.css';
 import '../css/styles/style.css';
 
 const Navbar = ({cartItems, total}) => {
-
-
+  // Add helper function to group cart items
+  const groupedCartItems = cartItems.reduce((acc, item) => {
+    const existingItem = acc.find(i => i.name === item.name);
+    if (existingItem) {
+      existingItem.count++;
+      existingItem.totalPrice += item.price;
+    } else {
+      acc.push({ ...item, count: 1, totalPrice: item.price });
+    }
+    return acc;
+  }, []);
 
   return (
     <>
@@ -88,13 +97,13 @@ const Navbar = ({cartItems, total}) => {
               <span className="badge bg-primary rounded-pill">{cartItems.length}</span>
             </h4>
             <ul className="list-group mb-3">
-              {cartItems.map((item, index) => (
+              {groupedCartItems.map((item, index) => (
                 <li key={index} className="list-group-item d-flex justify-content-between lh-sm">
                   <div>
-                    <h6 className="my-0">{item.name}</h6>
+                    <h6 className="my-0">{item.name} {item.count > 1 && `(${item.count}x)`}</h6>
                     <small className="text-body-secondary">{item.description}</small>
                   </div>
-                  <span className="text-body-secondary">${item.price}</span>
+                  <span className="text-body-secondary">${item.totalPrice.toFixed(2)}</span>
                 </li>
               ))}
               <li className="list-group-item d-flex justify-content-between">
