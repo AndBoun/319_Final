@@ -3,13 +3,11 @@ const cors = require('cors');
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const path = require('path');
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 const uri = 'mongodb+srv://coms3190:KtCbNpJx1ifdcqdJ@homepage.nvrtc.mongodb.net/?retryWrites=true&w=majority&appName=homepage';
-const JWT_SECRET = 'fortnite';
 // Serve static files from the public directory
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -48,33 +46,21 @@ async function run() {
       }
     });
 
-    const authenticateToken = (req, res, next) => {
-      const token = req.headers['authorization'];
-      if (!token) return res.status(401).json({ error: 'Access denied' });
-
-      jwt.verify(token, JWT_SECRET, (err, user) => {
-        if (err) return res.status(403).json({ error: 'Invalid token' });
-        req.user = user;
-        next();
-      });
-    };
 
     app.post('/login', async (req, res) => {
       try {
         const { email, password } = req.body;
         const collection = usersDb.collection('users');
         const user = await collection.findOne({ email });
-        if (!user) {
-          return res.status(401).json({ error: 'Invalid email or password' });
+
+        if (user && await bcrypt.compare(password, user.password)) {
+          res.json({ message: 'Login successful' });
+        } else {
+          res.status(401).send('Invalid email or password');
         }
-        const isPasswordValid = await bcrypt.compare(password, user.password);
-        if (!isPasswordValid) {
-          return res.status(401).json({ error: 'Invalid email or password' });
-        }
-        res.status(200).json({ message: 'Login successful', userId: user._id });
       } catch (error) {
-        console.error('Error logging in user:', error);
-        res.status(500).json({ error: 'Failed to log in user' });
+        console.error('Error logging in:', error);
+        res.status(500).json({ error: 'Failed to login' });
       }
     });
 
@@ -126,6 +112,7 @@ async function run() {
         res.status(500).json({ error: 'Failed to fetch account data' });
       }
     });
+
     app.get('/outerwear-data', async (req, res) => {
       try {
         const collection = db.collection('Outerwear');

@@ -11,7 +11,7 @@ const LoginPage = () => {
   } = useForm();
   const navigate = useNavigate();
   const [serverError, setServerError] = useState('');
-
+  
   const onSubmit = async (data) => {
     try {
       const response = await fetch('http://localhost:8080/login', {
@@ -23,7 +23,6 @@ const LoginPage = () => {
       });
       if (response.ok) {
         const result = await response.json();
-        localStorage.setItem('token', result.token); // Store the JWT in local storage
         console.log("Login successful");
         navigate('/account'); // Redirect to account page after successful login
       } else {

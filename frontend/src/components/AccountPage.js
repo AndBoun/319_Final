@@ -13,16 +13,10 @@ const AccountPage = () => {
     // Fetch account information and orders from the backend
     const fetchAccountData = async () => {
       try {
-        const token = localStorage.getItem('token'); // Get the JWT from local storage
-        if (!token) {
-          navigate('/login'); // Redirect to login if no token is found
-          return;
-        }
         const response = await fetch('http://localhost:8080/account', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`, // Include the JWT in the headers
           },
         });
         if (response.ok) {
