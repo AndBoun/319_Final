@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Navbar from './components/Navbar';
-import MainPicture from './components/MainPicture';
-import BestSelling from './components/BestSelling';
-import Kai from './components/Kai';
-import Andrew from './components/Andrew';
-import ContactUs from './components/ContactUs';
-import Outerwear from './components/Outerwear';
-import Pants from './components/Pants';
-import LoginPage from './components/LoginPage';
-import Footer from './components/Footer';
+import React, { useState } from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import MainPicture from "./components/MainPicture";
+import BestSelling from "./components/BestSelling";
+import Kai from "./components/Kai";
+import Andrew from "./components/Andrew";
+import ContactUs from "./components/ContactUs";
+import Outerwear from "./components/Outerwear";
+import Pants from "./components/Pants";
+import LoginPage from "./components/LoginPage";
+import Footer from "./components/Footer";
 
 function App() {
   const [cartItems, setCartItems] = useState([]);

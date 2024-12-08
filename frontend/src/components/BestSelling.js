@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
@@ -41,17 +42,17 @@ const BestSelling = () => {
         1200: { slidesPerView: 4 },
       },
     });
-  
+
     return () => {
       swiper.destroy();
     };
   }, []);
-  
+
   useEffect(() => {
     console.log("Initializing AOS");
     AOS.init();
   }, []);
-  
+
   useEffect(() => {
     console.log("Fetching data");
     const fetchData = async () => {
@@ -64,10 +65,10 @@ const BestSelling = () => {
         console.error("Error fetching data:", error);
       }
     };
-  
+
     fetchData();
   }, []);
-  
+
   useEffect(() => {
     console.log("Updated items state:", items); // Log updated state
   }, [items]);
@@ -80,9 +81,9 @@ const BestSelling = () => {
       <div className="container">
         <div className="d-flex flex-wrap justify-content-between align-items-center mt-5 mb-3">
           <h4 className="text-uppercase">Best Selling Items</h4>
-          <a href="/outerwear" className="btn-link">
+          <Link to="/outerwear" className="btn-link">
             View All Products
-          </a>
+          </Link>
         </div>
         <div className="swiper product-swiper open-up" data-aos="zoom-out">
           <div className="swiper-wrapper d-flex" id="bestSellersList">
@@ -90,28 +91,26 @@ const BestSelling = () => {
               <div key={index} className="swiper-slide">
                 <div className="product-item image-zoom-effect link-effect">
                   <div className="image-holder">
-
-                    {/* TODO */}
-                    <a href="/outerwear">
+                    <Link to="/outerwear">
                       <img
                         src={item.image}
                         alt={item.attribute}
                         className="product-image img-fluid"
                       />
-                    </a>
+                    </Link>
 
                     <div className="product-content">
                       <h5 className="text-uppercase fs-5 mt-3">
-                        <a href="/outerwear">{item.item}</a>
+                        <Link to="/outerwear">{item.item}</Link>
                       </h5>
                       <p>{item.productDescription}</p>
-                      <a
-                        href="/outerwear"
+                      <Link
+                        to="/outerwear"
                         className="text-decoration-none"
                         data-after="View Product"
                       >
                         <span>${item.price}</span>
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -120,8 +119,20 @@ const BestSelling = () => {
           </div>
         </div>
         <div className="swiper-pagination"></div>
-        <div className="swiper-button-prev"></div>
-        <div className="swiper-button-next"></div>
+
+        <div className="icon-arrow icon-arrow-right">
+          <div
+            className="swiper-button-next"
+            style={{ paddingRight: "30px" }}
+          ></div>
+        </div>
+
+        <div className="icon-arrow icon-arrow-left">
+          <div
+            className="swiper-button-prev"
+            style={{ paddingLeft: "30px" }}
+          ></div>
+        </div>
       </div>
     </section>
   );

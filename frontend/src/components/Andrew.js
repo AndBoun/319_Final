@@ -1,15 +1,20 @@
-import React from 'react';
+import React from "react";
+import OpeningAnimation from "./OpeningAnimation";
 
 const Andrew = () => {
-    return (
-        <section className="collection bg-light position-relative py-5">
+  return (
+    <section className="collection bg-light position-relative py-5">
       <div className="container">
         <div className="row">
           <div className="title-xlarge text-uppercase txt-fx domino"></div>
           <div className="collection-item d-flex flex-wrap my-5">
             <div className="col-md-6 column-container">
               <div className="image-holder">
-                <img src="./myotherimages/rat_cook_pizza.jpeg" alt="An intelligent rat cooking the pizza" className="product-image img-fluid" />
+                <img
+                  src="./myotherimages/rat_cook_pizza.jpeg"
+                  alt="An intelligent rat cooking the pizza"
+                  className="product-image img-fluid"
+                />
               </div>
             </div>
             <div className="col-md-6 column-container bg-white">
@@ -29,6 +34,5 @@ const Andrew = () => {
     </section>
   );
 };
-
 
 export default Andrew;
