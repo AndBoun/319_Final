@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { API_URL } from "../config";
 
 const Register = () => {
   const { 
@@ -13,7 +14,7 @@ const Register = () => {
   const [serverError, setServerError] = useState('');
   const onSubmit = async (data) => {
     try {
-      const response = await fetch('http://localhost:8080/register', {
+      const response = await fetch(`${API_URL}}/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

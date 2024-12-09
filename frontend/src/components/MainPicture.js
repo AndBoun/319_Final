@@ -22,7 +22,7 @@ const MainPicture = () => {
   useEffect(() => {
     const fetchMainImage = async () => {
       try {
-        const response = await fetch("http://localhost:8080/homepage-data");
+        const response = await fetch(`${API_URL}/homepage-data`);
         if (!response.ok) {
           throw new Error("Failed to fetch data");
         }

@@ -20,7 +20,7 @@ const Pants = ({ addToCart }) => {
 
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:8080/pants-data");
+        const response = await fetch(`${API_URL}/pants-data`);
         const data = await response.json();
         if (data && data.length > 0) {
           setPantsItems(data[0].PantsPageShop);

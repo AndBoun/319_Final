@@ -8,7 +8,7 @@ function OrderSummary({ cartItems, setCartItems, total, setTotal, formData }) {
 
   const handleComplete = async () => {
     try {
-      const response = await fetch('http://localhost:8080/create-order', {
+      const response = await fetch(`${API_URL}/create-order`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

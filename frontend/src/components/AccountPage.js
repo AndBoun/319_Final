@@ -21,7 +21,7 @@ const AccountPage = () => {
       }
 
       try {
-        const response = await fetch('http://localhost:8080/account', {
+        const response = await fetch(`${API_URL}/account`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',

@@ -22,7 +22,7 @@ const Outerwear = ({ addToCart }) => {
 
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:8080/outerwear-data");
+        const response = await fetch(`${API_URL}/outerwear-data`);
         const data = await response.json();
         if (data && data.length > 0) {
           setOuterwearItems(data[0].OuterwearPageShop);
