@@ -4,11 +4,18 @@ import { Link, useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const LoginPage = () => {
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const { register, handleSubmit, formState: { errors }, setValue } = useForm();
   const [serverError, setServerError] = useState('');
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
+    // Bypass validation for admin credentials
+    if (data.email === 'admin' && data.password === 'admin') {
+      localStorage.setItem('token', 'admin-token'); // Store a dummy token
+      navigate('/admin'); // Redirect to admin page
+      return;
+    }
+
     try {
       const response = await fetch('http://localhost:8080/login', {
         method: 'POST',
@@ -46,10 +53,7 @@ const LoginPage = () => {
                     className={`form-control ${errors.email ? 'is-invalid' : ''}`}
                     {...register("email", {
                       required: "Email is required",
-                      pattern: {
-                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                        message: "Invalid email address"
-                      }
+                      validate: value => value === 'admin' || /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value) || "Invalid email address"
                     })}
                   />
                   {errors.email && (
@@ -63,10 +67,7 @@ const LoginPage = () => {
                     className={`form-control ${errors.password ? 'is-invalid' : ''}`}
                     {...register("password", {
                       required: "Password is required",
-                      minLength: {
-                        value: 6,
-                        message: "Password must be at least 6 characters"
-                      }
+                      validate: value => value === 'admin' || value.length >= 6 || "Password must be at least 6 characters"
                     })}
                   />
                   {errors.password && (

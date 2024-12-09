@@ -16,6 +16,7 @@ import AccountPage from "./components/AccountPage";
 import CheckOut from "./components/CheckOut";
 import OrderSummary from "./components/OrderSummary";
 import ChatBot from "./components/ChatBot";
+import AdminPage from "./components/AdminPage";
 
 function App() {
   const [formData, setFormData] = useState({
@@ -70,6 +71,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/recover-password" element={<ForgotPassword />} />
           <Route path="/account" element={<AccountPage />} />
+          <Route path="/admin" element={<AdminPage />} />
           <Route
             path="/checkout"
             element={<CheckOut formData={formData} setFormData={setFormData} />}

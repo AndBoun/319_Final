@@ -53,11 +53,17 @@ async function run() {
     app.post('/login', async (req, res) => {
       try {
         const { email, password } = req.body;
+
+        if (email === 'admin' && password === 'admin') {
+          const token = jwt.sign({ email: 'admin', role: 'admin' }, 'secret_key', { expiresIn: '1h' });
+          return res.json({ message: 'Login successful', token });
+        }
+
         const collection = usersDb.collection('users');
         const user = await collection.findOne({ email });
 
         if (user && await bcrypt.compare(password, user.password)) {
-          const token = jwt.sign({ email: user.email, _id: user._id }, 'your_secret_key', { expiresIn: '1h' });
+          const token = jwt.sign({ email: user.email, _id: user._id }, 'secret_key', { expiresIn: '1h' });
           res.json({ message: 'Login successful', token });
         } else {
           res.status(401).send('Invalid email or password');
@@ -113,7 +119,7 @@ async function run() {
       }
     
       // Verify the token and attach user information to req.user
-      jwt.verify(token, 'your_secret_key', (err, user) => {
+      jwt.verify(token, 'secret_key', (err, user) => {
         if (err) {
           return res.status(401).json({ error: 'Unauthorized' });
         }
@@ -171,6 +177,38 @@ async function run() {
       } catch (error) {
         console.error('Error fetching pants data:', error);
         res.status(500).json({ error: 'Failed to fetch pants data.' });
+      }
+    });
+
+    app.post('/add-outerwear', authenticateUser, async (req, res) => {
+      if (req.user.role !== 'admin') {
+        return res.status(403).json({ error: 'Forbidden' });
+      }
+    
+      try {
+        const { item, productDescription, price, image } = req.body;
+        const collection = db.collection('Outerwear');
+        await collection.insertOne({ item, productDescription, price, image });
+        res.status(201).json({ message: 'Outerwear item added successfully' });
+      } catch (error) {
+        console.error('Error adding outerwear item:', error);
+        res.status(500).json({ error: 'Failed to add outerwear item' });
+      }
+    });
+    
+    app.post('/add-pants', authenticateUser, async (req, res) => {
+      if (req.user.role !== 'admin') {
+        return res.status(403).json({ error: 'Forbidden' });
+      }
+    
+      try {
+        const { item, productDescription, price, image } = req.body;
+        const collection = db.collection('Pants');
+        await collection.insertOne({ item, productDescription, price, image });
+        res.status(201).json({ message: 'Pants item added successfully' });
+      } catch (error) {
+        console.error('Error adding pants item:', error);
+        res.status(500).json({ error: 'Failed to add pants item' });
       }
     });
 
