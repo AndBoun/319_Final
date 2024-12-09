@@ -17,6 +17,7 @@ import CheckOut from "./components/CheckOut";
 import OrderSummary from "./components/OrderSummary";
 import ChatBot from "./components/ChatBot";
 import AdminPage from "./components/AdminPage";
+import Categories from "./components/Categories";
 
 function App() {
   const [formData, setFormData] = useState({
@@ -56,6 +57,7 @@ function App() {
               <>
                 <MainPicture />
                 <BestSelling />
+                <Categories />
               </>
             }
           />
