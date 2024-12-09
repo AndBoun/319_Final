@@ -14,6 +14,9 @@ const uri = 'mongodb+srv://coms3190:KtCbNpJx1ifdcqdJ@homepage.nvrtc.mongodb.net/
 // Serve static files from the public directory
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Serve images from the images directory
+app.use('/images', express.static(path.join(__dirname, 'images')));
+
 const client = new MongoClient(uri, {
   serverApi: {
     version: ServerApiVersion.v1,
