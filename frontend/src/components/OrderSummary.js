@@ -65,6 +65,9 @@ function OrderSummary({ cartItems, setCartItems, total, setTotal, formData }) {
       </Card>
 
       <Card>
+      <Card.Header style={{ backgroundColor: '#779B9D', color: 'white' }}>
+          <h4 style={{color: 'white'}}>Order Summary</h4>
+        </Card.Header>
         <ListGroup variant="flush">
           {groupedCartItems.map((item, index) => (
             <ListGroup.Item
