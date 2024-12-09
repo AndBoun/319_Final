@@ -70,7 +70,9 @@ const Outerwear = ({ addToCart }) => {
                         onClick={() => addToCart({
                           name: element.item,
                           description: element.productDescription,
-                          price: element.price
+                          price: element.price,
+                          image: element.image,
+                          attributes: element.attribute
                         })}
                       >
                         Add to Cart
