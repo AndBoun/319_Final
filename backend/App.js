@@ -183,9 +183,7 @@ async function run() {
     });
 
     app.post('/add-outerwear', authenticateUser, async (req, res) => {
-      if (req.user.role !== 'admin') {
-        return res.status(403).json({ error: 'Forbidden' });
-      }
+
     
       try {
         const { item, productDescription, price, image } = req.body;
@@ -199,9 +197,6 @@ async function run() {
     });
     
     app.post('/add-pants', authenticateUser, async (req, res) => {
-      if (req.user.role !== 'admin') {
-        return res.status(403).json({ error: 'Forbidden' });
-      }
     
       try {
         const { item, productDescription, price, image } = req.body;
