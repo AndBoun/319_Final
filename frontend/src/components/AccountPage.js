@@ -12,13 +12,27 @@ const AccountPage = () => {
   useEffect(() => {
     // Fetch account information and orders from the backend
     const fetchAccountData = async () => {
+      const token = localStorage.getItem('token'); // Retrieve the token from localStorage or other storage
+      if (!token) {
+        setError('Unauthorized: No token provided');
+        setLoading(false);
+        return;
+      }
+
       try {
         const response = await fetch('http://localhost:8080/account', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
           },
         });
+
+        const contentType = response.headers.get('content-type');
+        if (!contentType || !contentType.includes('application/json')) {
+          throw new Error('Invalid response from server');
+        }
+
         if (response.ok) {
           const data = await response.json();
           setAccountInfo(data.accountInfo);

@@ -3,11 +3,14 @@ const cors = require('cors');
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const path = require('path');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+
 const uri = 'mongodb+srv://coms3190:KtCbNpJx1ifdcqdJ@homepage.nvrtc.mongodb.net/?retryWrites=true&w=majority&appName=homepage';
+
 // Serve static files from the public directory
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -26,6 +29,7 @@ async function run() {
 
     const db = client.db('products'); // Database name
     const usersDb = client.db('Users'); // Database name
+
     app.post('/register', async (req, res) => {
       try {
         const { email, password } = req.body;
@@ -46,7 +50,6 @@ async function run() {
       }
     });
 
-
     app.post('/login', async (req, res) => {
       try {
         const { email, password } = req.body;
@@ -54,7 +57,8 @@ async function run() {
         const user = await collection.findOne({ email });
 
         if (user && await bcrypt.compare(password, user.password)) {
-          res.json({ message: 'Login successful' });
+          const token = jwt.sign({ email: user.email, _id: user._id }, 'your_secret_key', { expiresIn: '1h' });
+          res.json({ message: 'Login successful', token });
         } else {
           res.status(401).send('Invalid email or password');
         }
@@ -64,7 +68,6 @@ async function run() {
       }
     });
 
-    
     app.get('/homepage-data', async (req, res) => {
       try {
         const collection = db.collection('homepage');
@@ -95,17 +98,41 @@ async function run() {
         console.error('Error resetting password:', error);
         res.status(500).json({ error: 'Failed to reset password' });
       }
+    });
 
-  });
+    const authenticateUser = (req, res, next) => {
+      // Example: Check for a token in the request headers
+      const authHeader = req.headers.authorization;
+      if (!authHeader) {
+        return res.status(401).json({ error: 'Unauthorized' });
+      }
 
-    app.get('/account', async (req, res) => {
+      const token = authHeader.split(' ')[1]; // Extract the token from the "Bearer <token>" format
+      if (!token) {
+        return res.status(401).json({ error: 'Unauthorized' });
+      }
+    
+      // Verify the token and attach user information to req.user
+      jwt.verify(token, 'your_secret_key', (err, user) => {
+        if (err) {
+          return res.status(401).json({ error: 'Unauthorized' });
+        }
+        req.user = user;
+        next();
+      });
+    };
+    
+    // Use the middleware for the /account route
+    app.get('/account', authenticateUser, async (req, res) => {
       try {
-        // Replace with actual logic to fetch account information and orders
-        const accountInfo = { email: 'user@example.com' };
-        const orders = [
-          { id: '123', items: ['Item 1', 'Item 2'], total: 50 },
-          { id: '124', items: ['Item 3'], total: 20 },
-        ];
+        const user = req.user;
+        if (!user) {
+          return res.status(401).json({ error: 'Unauthorized' });
+        }
+    
+        const accountInfo = { email: user.email };
+        const orders = await usersDb.collection('Orders').find({ userId: user._id }).toArray();
+    
         res.status(200).json({ accountInfo, orders });
       } catch (error) {
         console.error('Error fetching account data:', error);
@@ -146,7 +173,6 @@ async function run() {
         res.status(500).json({ error: 'Failed to fetch pants data.' });
       }
     });
-
 
     app.listen(8080, () => {
       console.log('Backend server is running on http://localhost:8080');
