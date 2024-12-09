@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { API_URL } from '../config';
 import AOS from "aos";
 import "aos/dist/aos.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -20,7 +21,7 @@ const ContactUs = () => {
           <div className="collection-item d-flex flex-wrap my-5">
             <div className="col-md-6 column-container">
               <div className="image-holder">
-                <img src="http://localhost:8080/myotherimages/cat.gif" alt="collection" className="product-image img-fluid" />
+                <img src={`${API_URL}/myotherimages/cat.gif`} alt="collection" className="product-image img-fluid" />
               </div>
             </div>
             <div className="col-md-6 column-container bg-white">

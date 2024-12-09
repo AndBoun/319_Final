@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { API_URL } from '../config';
 
 const Footer = () => {
   return (
@@ -12,7 +13,7 @@ const Footer = () => {
               <div className="footer-intro mb-4">
               <Link className="navbar-brand text-white" to="/">
                   <img
-                    src="http://localhost:8080/myotherimages/logo.png"
+                    src={`${API_URL}/myotherimages/logo.png`}
                     alt="logo"
                     style={{ width: '200px', height: 'auto' }}
                   />
