@@ -65,6 +65,7 @@ const Outerwear = ({ addToCart }) => {
                         <Link to="/outerwear">{element.item}</Link>
                       </h5>
                       <p>{element.productDescription}</p>
+                      <p className="price-tag">${element.price}</p>
                       <button
                         className="btn btn-primary"
                         onClick={() => addToCart({

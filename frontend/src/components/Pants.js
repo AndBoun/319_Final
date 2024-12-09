@@ -63,6 +63,7 @@ const Pants = ({ addToCart }) => {
                         <Link to="/pants">{element.item}</Link>
                       </h5>
                       <p>{element.productDescription}</p>
+                      <p className="price">${element.price}</p>
                       <button
                         className="btn btn-primary"
                         onClick={() => addToCart({
