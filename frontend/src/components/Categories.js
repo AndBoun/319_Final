@@ -9,12 +9,12 @@ const Categories = () => {
   const categories = [
     {
       title: "Outerwear",
-      image: "/images/crewneck2.jpeg", // Add your image path
+      image: "/images/crewneck2.jpeg",
       link: "/outerwear",
     },
     {
       title: "Pants",
-      image: "/images/pants4.jpeg", // Add your image path
+      image: "/images/pants4.jpeg",
       link: "/pants",
     },
   ];
