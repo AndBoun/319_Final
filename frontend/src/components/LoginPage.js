@@ -1,17 +1,13 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useForm } from "react-hook-form";
-import "bootstrap/dist/css/bootstrap.min.css";
+import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { Link, useNavigate } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const LoginPage = () => {
-  const { 
-    register, 
-    handleSubmit,
-    formState: { errors }
-  } = useForm();
-  const navigate = useNavigate();
+  const { register, handleSubmit, formState: { errors } } = useForm();
   const [serverError, setServerError] = useState('');
-  
+  const navigate = useNavigate();
+
   const onSubmit = async (data) => {
     try {
       const response = await fetch('http://localhost:8080/login', {
@@ -21,18 +17,18 @@ const LoginPage = () => {
         },
         body: JSON.stringify(data),
       });
+
       if (response.ok) {
         const result = await response.json();
-        console.log("Login successful");
-        navigate('/account'); // Redirect to account page after successful login
+        localStorage.setItem('token', result.token); // Store the token in localStorage
+        navigate('/account'); // Redirect to account page
       } else {
         const result = await response.json();
-        setServerError(result.error); // Set the server error message
-        console.log("Login failed:", result.error);
+        setServerError(result.error || 'Login failed');
       }
     } catch (error) {
-      console.error("Error logging in:", error);
-      setServerError('Failed to log in'); // Set a generic error message
+      console.error('Error logging in:', error);
+      setServerError('Failed to login');
     }
   };
 
@@ -90,7 +86,7 @@ const LoginPage = () => {
                   <Link to="/register">Register here</Link>
                 </div>
                 <div className="text-center mt-3">
-                  <Link to="/forgot-password" className="text-decoration-none">
+                  <Link to="/recover-password" className="text-decoration-none">
                     Forgot Password?
                   </Link>
                 </div>
