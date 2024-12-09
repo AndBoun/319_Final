@@ -1,0 +1,14 @@
+{
+    "Categories" : [
+        {
+        "title": "Outerwear",
+        "image": "images/crewneck2.jpeg",
+        "link": "/outerwear"
+        },
+        {
+        "title": "Pants",
+        "image": "images/pants4.jpeg",
+        "link": "/pants"
+        }
+  ]
+}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { API_URL } from '../config';
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -7,18 +7,28 @@ import "../css/vendor.css";
 import "../css/styles/style.css";
 
 const Categories = () => {
-  const categories = [
-    {
-      title: "Outerwear",
-      image: "images/crewneck2.jpeg",
-      link: "/outerwear",
-    },
-    {
-      title: "Pants",
-      image: "images/pants4.jpeg",
-      link: "/pants",
-    },
-  ];
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await fetch(`${API_URL}/categories`);
+        const data = await response.json();
+        console.log("Fetched categories data", data);
+        if (data && data.length > 0) {
+          setCategories(Array.isArray(data[0].Categories) ? data[0].Categories : []);
+          console.log("Fetched categories data", data[0].Categories);
+        } else {
+          setCategories([]);
+        }
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+        setCategories([]);
+      }
+    };
+
+    fetchCategories();
+  }, []);
 
   return (
     <section className="categories-section py-5 position-relative overflow-hidden">
