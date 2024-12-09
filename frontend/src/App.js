@@ -13,8 +13,23 @@ import Register from "./components/Register";
 import ForgotPassword from "./components/ForgotPassword";
 import Footer from "./components/Footer";
 import AccountPage from "./components/AccountPage";
+import CheckOut from "./components/CheckOut";
+import OrderSummary from "./components/OrderSummary";
+import { set } from "react-hook-form";
 
 function App() {
+  const [formData, setFormData] = useState({
+    fullName: "",
+    email: "",
+    address: "",
+    city: "",
+    state: "",
+    zipCode: "",
+    cardNumber: "",
+    cardName: "",
+    expiryDate: "",
+    cvv: "",
+  });
   const [cartItems, setCartItems] = useState([]);
   const [total, setTotal] = useState(0);
 
@@ -54,6 +69,22 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/recover-password" element={<ForgotPassword />} />
           <Route path="/account" element={<AccountPage />} />
+          <Route
+            path="/checkout"
+            element={<CheckOut formData={formData} setFormData={setFormData} />}
+          />
+          <Route
+            path="/order-summary"
+            element={
+              <OrderSummary
+                cartItems={cartItems}
+                setCartItems={setCartItems}
+                total={total}
+                setTotal={setTotal}
+                formData={formData}
+              />
+            }
+          />
         </Routes>
         <Footer />
       </div>

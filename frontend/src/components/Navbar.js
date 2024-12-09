@@ -141,7 +141,7 @@ const Navbar = ({cartItems,  setCartItems, total, setTotal}) => {
                 <strong>${total}</strong>
               </li>
             </ul>
-            <button className="w-100 btn btn-primary btn-lg" type="submit">Continue to Checkout</button>
+            <Link to="/checkout" className="w-100 btn btn-primary btn-lg">Continue to Checkout</Link>
           </div>
         </div>
       </div>
