@@ -236,25 +236,28 @@ async function run() {
       try {
         const { item, productDescription, price, image, attribute } = req.body;
         console.log('Received data for adding outerwear:', { item, productDescription, price, image, attribute });
-
+    
         if (!item || !productDescription || !price || !image || !attribute) {
+          console.log('Validation failed: Missing fields');
           return res.status(400).json({ error: 'All fields are required' });
         }
-
+    
         const collection = db.collection('Outerwear');
         const result = await collection.updateOne(
           { mainTitle: 'Outerwear' },
           { $push: { OuterwearPageShop: { item, productDescription, price, image, attribute } } }
         );
-
+    
         if (result.matchedCount === 0) {
+          console.log('Outerwear document not found');
           return res.status(404).json({ error: 'Outerwear document not found' });
         }
-
+    
+        console.log('Outerwear item added successfully');
         res.status(201).json({ message: 'Outerwear item added successfully' });
       } catch (error) {
-        console.error("Error adding outerwear item:", error);
-        res.status(500).json({ error: "Failed to add outerwear item" });
+        console.error('Error adding outerwear item:', error);
+        res.status(500).json({ error: 'Failed to add outerwear item' });
       }
     });
     
