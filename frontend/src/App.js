@@ -15,7 +15,7 @@ import Footer from "./components/Footer";
 import AccountPage from "./components/AccountPage";
 import CheckOut from "./components/CheckOut";
 import OrderSummary from "./components/OrderSummary";
-import { set } from "react-hook-form";
+import ChatBot from "./components/ChatBot";
 
 function App() {
   const [formData, setFormData] = useState({
@@ -47,6 +47,7 @@ function App() {
           total={total}
           setTotal={setTotal}
         />
+        <ChatBot />
         <Routes>
           <Route
             path="/"
