@@ -1,32 +1,45 @@
 import React, { useEffect } from "react";
 import { Container, Card, ListGroup, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function OrderSummary({ cartItems, setCartItems, total, setTotal, formData }) {
-  const handleComplete = () => {
-    setCartItems([]);
-    setTotal(0);
-    alert("Order completed! Thank you for your purchase.");
+  const navigate = useNavigate();
+
+  const handleComplete = async () => {
+    try {
+      const response = await fetch('http://localhost:8080/create-order', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email: formData.email, cartItems, total, formData }),
+      });
+
+      if (response.ok) {
+        setCartItems([]);
+        setTotal(0);
+        alert("Order completed! Thank you for your purchase.");
+        navigate('/');
+      } else {
+        alert("Failed to complete the order. Please try again.");
+      }
+    } catch (error) {
+      console.error('Error completing order:', error);
+      alert("Failed to complete the order. Please try again.");
+    }
   };
 
   // Helper function to group cart items
   const groupedCartItems = cartItems.reduce((acc, item) => {
-    // Try to find an existing item in the accumulator with the same name
     const existingItem = acc.find((i) => i.name === item.name);
-    console.log("Image path:", item.image);
     if (existingItem) {
-      // If the item exists, increment its count and update the total price
       existingItem.count++;
       existingItem.totalPrice += item.price;
-      console.log("Image path:", existingItem.image);
     } else {
-      // If the item does not exist, add it to the accumulator with initial count and total price
       acc.push({ ...item, count: 1, totalPrice: item.price });
     }
-
-    // Return the updated accumulator for the next iteration
     return acc;
-  }, []); // Initial value of the accumulator is an empty array
+  }, []);
 
   return (
     <Container className="py-5">
@@ -52,9 +65,6 @@ function OrderSummary({ cartItems, setCartItems, total, setTotal, formData }) {
       </Card>
 
       <Card>
-        <Card.Header style={{ backgroundColor: '#779B9D', color: 'white' }}>
-          <h4 style={{color: 'white'}}>Order Details</h4>
-        </Card.Header>
         <ListGroup variant="flush">
           {groupedCartItems.map((item, index) => (
             <ListGroup.Item
