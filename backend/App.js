@@ -226,13 +226,27 @@ async function run() {
         res.status(500).json({ error: "Failed to add outerwear item" });
       }
     });
-
-    app.post("/add-pants", authenticateUser, async (req, res) => {
+    
+    app.post('/add-pants', async (req, res) => {
       try {
-        const { item, productDescription, price, image } = req.body;
-        const collection = db.collection("Pants");
-        await collection.insertOne({ item, productDescription, price, image });
-        res.status(201).json({ message: "Pants item added successfully" });
+        const { item, productDescription, price, image, attribute } = req.body;
+        console.log('Received data for adding pants:', { item, productDescription, price, image, attribute });
+    
+        if (!item || !productDescription || !price || !image || !attribute) {
+          return res.status(400).json({ error: 'All fields are required' });
+        }
+    
+        const collection = db.collection('Pants');
+        const result = await collection.updateOne(
+          { mainTitle: 'Pants' },
+          { $push: { PantsPageShop: { item, productDescription, price, image, attribute } } }
+        );
+    
+        if (result.matchedCount === 0) {
+          return res.status(404).json({ error: 'Pants document not found' });
+        }
+    
+        res.status(201).json({ message: 'Pants item added successfully' });
       } catch (error) {
         console.error("Error adding pants item:", error);
         res.status(500).json({ error: "Failed to add pants item" });
