@@ -95,7 +95,7 @@ const AccountPage = () => {
                             </div>
                           ))}
                         </div>
-                        <p><strong>Total Quantity:</strong> {order.items.reduce((total, item) => total + (item.count || 1), 0)}</p>
+                        <p> {order.items.reduce((total, item) => total + (item.count || 1), 0)}<strong> Items</strong></p>
                         <p><strong>Total:</strong> ${order.total.toFixed(2)}</p>
                         <p><strong>Shipping Info:</strong> {order.shippingInfo.address}, {order.shippingInfo.city}, {order.shippingInfo.state}, {order.shippingInfo.zipCode}</p>
                       </li>
