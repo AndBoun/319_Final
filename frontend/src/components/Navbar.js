@@ -11,22 +11,24 @@ import '../css/styles/style.css';
 
 const Navbar = ({cartItems,  setCartItems, total, setTotal}) => {
 
-  // Add helper function to group cart items
+  // Helper function to group cart items
   const groupedCartItems = cartItems.reduce((acc, item) => {
-    const existingItem = acc.find(i => i.name === item.name);
-    if (existingItem) {
-      existingItem.count++;
-      existingItem.totalPrice += item.price;
-    } else {
-      acc.push({ ...item, count: 1, totalPrice: item.price });
-    }
-    return acc;
-  }, []);
-
-  // Handle removing an item from the cart
-  const handleRemoveItem = (itemToRemove) => {
-    setCartItems(cartItems.filter(item => item.id !== itemToRemove.id));
-  };
+      // Try to find an existing item in the accumulator with the same name
+      const existingItem = acc.find(i => i.name === item.name);
+      
+      if (existingItem) {
+          // If the item exists, increment its count and update the total price
+          existingItem.count++;
+          existingItem.totalPrice += item.price;
+      } else {
+          // If the item does not exist, add it to the accumulator with initial count and total price
+          acc.push({ ...item, count: 1, totalPrice: item.price });
+      }
+      
+      // Return the updated accumulator for the next iteration
+      return acc;
+  }, []); // Initial value of the accumulator is an empty array
+  
 
   const handleIncrement = (item) => {
     setCartItems([...cartItems, {...item}]);
