@@ -128,7 +128,6 @@ async function run() {
       });
     };
     
-    // Use the middleware for the /account route
     app.get('/account', authenticateUser, async (req, res) => {
       try {
         const user = req.user;
@@ -137,7 +136,7 @@ async function run() {
         }
     
         const accountInfo = { email: user.email };
-        const orders = await usersDb.collection('Orders').find({ userId: user._id }).toArray();
+        const orders = await usersDb.collection('Orders').find({ 'shippingInfo.email': user.email }).toArray();
     
         res.status(200).json({ accountInfo, orders });
       } catch (error) {
@@ -209,6 +208,40 @@ async function run() {
       } catch (error) {
         console.error('Error adding pants item:', error);
         res.status(500).json({ error: 'Failed to add pants item' });
+      }
+    });
+
+    app.post('/create-order', async (req, res) => {
+      try {
+        const { email, cartItems, total, formData } = req.body;
+        const collection = usersDb.collection('users');
+        const user = await collection.findOne({ email });
+    
+        if (user) {
+          // User is registered, save the order with userId
+          const ordersCollection = usersDb.collection('Orders');
+          await ordersCollection.insertOne({
+            userId: user._id,
+            items: cartItems,
+            total,
+            shippingInfo: formData,
+            createdAt: new Date()
+          });
+          res.status(201).json({ message: 'Order created and linked to user' });
+        } else {
+          // User is not registered, save the order without userId
+          const ordersCollection = usersDb.collection('Orders');
+          await ordersCollection.insertOne({
+            items: cartItems,
+            total,
+            shippingInfo: formData,
+            createdAt: new Date()
+          });
+          res.status(201).json({ message: 'Order created without user link' });
+        }
+      } catch (error) {
+        console.error('Error creating order:', error);
+        res.status(500).json({ error: 'Failed to create order' });
       }
     });
 
