@@ -83,21 +83,24 @@ const AccountPage = () => {
               {orders.length > 0 ? (
                 <ul className="list-group">
                   {orders.map((order, index) => (
-                    <li key={index} className="list-group-item">
-                      <p><strong>Order ID:</strong> {order._id}</p>
-                      <p><strong>Order Date:</strong> {formatDate(order.createdAt)}</p>
-                      <p><strong>Items:</strong></p>
-                      <div className="d-flex flex-wrap">
-                        {order.items.map((item, itemIndex) => (
-                          <div key={itemIndex} className="text-center me-3 mb-3">
-                            <img src={item.image} alt={item.name} style={{ width: '100px', height: '100px' }} />
-                          </div>
-                        ))}
-                      </div>
-                      <p><strong>Total Quantity:</strong> {order.items.reduce((total, item) => total + item.count, 0)}</p>
-                      <p><strong>Total:</strong> ${order.total.toFixed(2)}</p>
-                      <p><strong>Shipping Info:</strong> {order.shippingInfo.address}, {order.shippingInfo.city}, {order.shippingInfo.state}, {order.shippingInfo.zipCode}</p>
-                    </li>
+                    <React.Fragment key={index}>
+                      <li className="list-group-item">
+                        <p><strong>Order ID:</strong> {order._id}</p>
+                        <p><strong>Order Date:</strong> {formatDate(order.createdAt)}</p>
+                        <p><strong>Items:</strong></p>
+                        <div className="d-flex flex-wrap">
+                          {order.items.map((item, itemIndex) => (
+                            <div key={itemIndex} className="text-center me-3 mb-3">
+                              <img src={item.image} alt={item.name} style={{ width: '100px', height: '100px' }} />
+                            </div>
+                          ))}
+                        </div>
+                        <p><strong>Total Quantity:</strong> {order.items.reduce((total, item) => total + (item.count || 1), 0)}</p>
+                        <p><strong>Total:</strong> ${order.total.toFixed(2)}</p>
+                        <p><strong>Shipping Info:</strong> {order.shippingInfo.address}, {order.shippingInfo.city}, {order.shippingInfo.state}, {order.shippingInfo.zipCode}</p>
+                      </li>
+                      {index < orders.length - 1 && <hr />}
+                    </React.Fragment>
                   ))}
                 </ul>
               ) : (
