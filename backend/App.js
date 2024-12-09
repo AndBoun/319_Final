@@ -3,6 +3,8 @@ const cors = require("cors");
 const { MongoClient, ServerApiVersion } = require("mongodb");
 const path = require("path");
 const bcrypt = require("bcrypt");
+const fs = require("fs"); // Add this at the top
+var multer = require("multer");
 const jwt = require("jsonwebtoken");
 const app = express();
 
@@ -21,6 +23,21 @@ app.use(
   "/myotherimages",
   express.static(path.join(__dirname, "myotherimages"))
 );
+
+// Set up multer for image upload
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "images/"); // Save images in the 'uploads' folder
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname)); // Unique filename
+  },
+});
+const upload = multer({ storage: storage });
+// Create "uploads" folder if it doesn't exist
+if (!fs.existsSync("images")) {
+  fs.mkdirSync("images");
+}
 
 const client = new MongoClient(uri, {
   serverApi: {
