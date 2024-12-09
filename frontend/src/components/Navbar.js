@@ -9,7 +9,8 @@ import '../css/swiper-bundle.min.css';
 import '../css/vendor.css';
 import '../css/styles/style.css';
 
-const Navbar = ({cartItems, total}) => {
+const Navbar = ({cartItems,  setCartItems, total, setTotal}) => {
+
   // Add helper function to group cart items
   const groupedCartItems = cartItems.reduce((acc, item) => {
     const existingItem = acc.find(i => i.name === item.name);
@@ -21,6 +22,26 @@ const Navbar = ({cartItems, total}) => {
     }
     return acc;
   }, []);
+
+  // Handle removing an item from the cart
+  const handleRemoveItem = (itemToRemove) => {
+    setCartItems(cartItems.filter(item => item.id !== itemToRemove.id));
+  };
+
+  const handleIncrement = (item) => {
+    setCartItems([...cartItems, {...item}]);
+    setTotal((prevTotal) => prevTotal + item.price);
+  };
+
+  const handleDecrement = (itemName) => {
+    const index = cartItems.findLastIndex(item => item.name === itemName);
+    if (index !== -1) {
+      const newCartItems = [...cartItems];
+      const removedItem = newCartItems.splice(index, 1)[0];
+      setCartItems(newCartItems);
+      setTotal((prevTotal) => prevTotal - removedItem.price);
+    }
+  };
 
   return (
     <>
@@ -100,10 +121,17 @@ const Navbar = ({cartItems, total}) => {
               {groupedCartItems.map((item, index) => (
                 <li key={index} className="list-group-item d-flex justify-content-between lh-sm">
                   <div>
-                    <h6 className="my-0">{item.name} {item.count > 1 && `(${item.count}x)`}</h6>
+                    <h6 className="my-0">{item.name}</h6>
                     <small className="text-body-secondary">{item.description}</small>
                   </div>
-                  <span className="text-body-secondary">${item.totalPrice.toFixed(2)}</span>
+                  <div className="d-flex align-items-center">
+                    <span className="text-body-secondary me-3">${item.totalPrice.toFixed(2)}</span>
+                    <div className="btn-group" role="group">
+                      <button className="btn btn-outline-secondary btn-sm" onClick={() => handleDecrement(item.name)}>-</button>
+                      <span className="btn btn-outline-secondary btn-sm disabled">{item.count}</span>
+                      <button className="btn btn-outline-secondary btn-sm" onClick={() => handleIncrement(item)}>+</button>
+                    </div>
+                  </div>
                 </li>
               ))}
               <li className="list-group-item d-flex justify-content-between">

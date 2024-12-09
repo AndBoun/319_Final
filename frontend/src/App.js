@@ -26,7 +26,12 @@ function App() {
   return (
     <Router>
       <div>
-        <Navbar cartItems={cartItems} total={total} />
+        <Navbar
+          cartItems={cartItems}
+          setCartItems={setCartItems}
+          total={total}
+          setTotal={setTotal}
+        />
         <Routes>
           <Route
             path="/"
@@ -40,7 +45,10 @@ function App() {
           <Route path="/kai" element={<Kai />} />
           <Route path="/andrew" element={<Andrew />} />
           <Route path="/contactUs" element={<ContactUs />} />
-          <Route path="/outerwear" element={<Outerwear addToCart={addToCart} />} />
+          <Route
+            path="/outerwear"
+            element={<Outerwear addToCart={addToCart} />}
+          />
           <Route path="/pants" element={<Pants addToCart={addToCart} />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<Register />} />
