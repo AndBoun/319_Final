@@ -1,27 +1,27 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { API_URL } from '../config';
 
 const AdminPage = () => {
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const { register, handleSubmit, formState: { errors }, reset } = useForm();
   const [serverError, setServerError] = useState('');
   const navigate = useNavigate();
 
   const onSubmit = async (data, endpoint) => {
     try {
-      const token = localStorage.getItem('token');
-      const response = await fetch(`${API_URL}/${endpoint}`, {
+      const response = await fetch(`http://localhost:8080/${endpoint}`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify(data),
       });
-  
+
       if (response.ok) {
         console.log("Product added successfully");
+        reset(); // Reset the form fields
+        setServerError(''); // Clear any previous errors
+        alert('Product added successfully');
         navigate('/'); 
       } else {
         const result = await response.json();
@@ -59,6 +59,11 @@ const AdminPage = () => {
           <input className="form-control" {...register("image", { required: "Image URL is required" })} />
           {errors.image && <div className="invalid-feedback">{errors.image.message}</div>}
         </div>
+        <div className="mb-3">
+          <label className="form-label">Attribute</label>
+          <input className="form-control" {...register("attribute", { required: "Attribute is required" })} />
+          {errors.attribute && <div className="invalid-feedback">{errors.attribute.message}</div>}
+        </div>
         <button type="submit" className="btn btn-primary">Add Outerwear</button>
       </form>
 
@@ -83,6 +88,11 @@ const AdminPage = () => {
           <label className="form-label">Image URL</label>
           <input className="form-control" {...register("image", { required: "Image URL is required" })} />
           {errors.image && <div className="invalid-feedback">{errors.image.message}</div>}
+        </div>
+        <div className="mb-3">
+          <label className="form-label">Attribute</label>
+          <input className="form-control" {...register("attribute", { required: "Attribute is required" })} />
+          {errors.attribute && <div className="invalid-feedback">{errors.attribute.message}</div>}
         </div>
         <button type="submit" className="btn btn-primary">Add Pants</button>
       </form>
