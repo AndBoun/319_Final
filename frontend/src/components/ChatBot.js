@@ -48,34 +48,32 @@ const ChatBot = () => {
 
     return (
         <div className="chatbot-container">
-            {isOpen && (
-                <div className="chat-window">
-                    <div className="chat-header">
-                        <h3 style={{ color: 'white' }}>Chat Assistant</h3>
-                        <button onClick={() => setIsOpen(false)}>
-                            <FontAwesomeIcon icon={faTimes} />
-                        </button>
-                    </div>
-                    <div className="chat-messages">
-                        {messages.map((message, index) => (
-                            <div key={index} className={`message ${message.type}`}>
-                                {message.text}
-                            </div>
-                        ))}
-                    </div>
-                    <form onSubmit={handleSendMessage} className="chat-input">
-                        <input
-                            type="text"
-                            value={inputMessage}
-                            onChange={(e) => setInputMessage(e.target.value)}
-                            placeholder="Type a message..."
-                        />
-                        <button type="submit">
-                            <FontAwesomeIcon icon={faPaperPlane} />
-                        </button>
-                    </form>
+            <div className={`chat-window ${isOpen ? 'visible' : ''}`}>
+                <div className="chat-header">
+                    <h3 style={{ color: 'white' }}>Chat Assistant</h3>
+                    <button onClick={() => setIsOpen(false)}>
+                        <FontAwesomeIcon icon={faTimes} />
+                    </button>
                 </div>
-            )}
+                <div className="chat-messages">
+                    {messages.map((message, index) => (
+                        <div key={index} className={`message ${message.type}`}>
+                            {message.text}
+                        </div>
+                    ))}
+                </div>
+                <form onSubmit={handleSendMessage} className="chat-input">
+                    <input
+                        type="text"
+                        value={inputMessage}
+                        onChange={(e) => setInputMessage(e.target.value)}
+                        placeholder="Type a message..."
+                    />
+                    <button type="submit">
+                        <FontAwesomeIcon icon={faPaperPlane} />
+                    </button>
+                </form>
+            </div>
             <button className="chat-button" onClick={() => setIsOpen(!isOpen)}>
                 <FontAwesomeIcon icon={faComments} />
             </button>
