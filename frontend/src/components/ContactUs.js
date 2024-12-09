@@ -20,7 +20,7 @@ const ContactUs = () => {
           <div className="collection-item d-flex flex-wrap my-5">
             <div className="col-md-6 column-container">
               <div className="image-holder">
-                <img src="./myotherimages/cat.gif" alt="collection" className="product-image img-fluid" />
+                <img src="http://localhost:8080/myotherimages/cat.gif" alt="collection" className="product-image img-fluid" />
               </div>
             </div>
             <div className="col-md-6 column-container bg-white">

@@ -1,4 +1,5 @@
 import React from "react";
+import { API_URL } from '../config';
 import OpeningAnimation from "./OpeningAnimation";
 
 const Andrew = () => {
@@ -11,7 +12,7 @@ const Andrew = () => {
             <div className="col-md-6 column-container">
               <div className="image-holder">
                 <img
-                  src="./myotherimages/rat_cook_pizza.jpeg"
+                  src={`${API_URL}/myotherimages/rat_cook_pizza.jpeg`}
                   alt="An intelligent rat cooking the pizza"
                   className="product-image img-fluid"
                 />

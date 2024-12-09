@@ -16,6 +16,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Serve images from the images directory
 app.use('/images', express.static(path.join(__dirname, 'images')));
+app.use('/myotherimages', express.static(path.join(__dirname, 'myotherimages')));
+
 
 const client = new MongoClient(uri, {
   serverApi: {

@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { API_URL } from '../config';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/normalize.css";
 import "../css/vendor.css";
@@ -9,12 +10,12 @@ const Categories = () => {
   const categories = [
     {
       title: "Outerwear",
-      image: "/images/crewneck2.jpeg",
+      image: "images/crewneck2.jpeg",
       link: "/outerwear",
     },
     {
       title: "Pants",
-      image: "/images/pants4.jpeg",
+      image: "images/pants4.jpeg",
       link: "/pants",
     },
   ];
@@ -45,7 +46,7 @@ const Categories = () => {
                       }}
                     ></div>
                     <img
-                      src={category.image}
+                      src={`${API_URL}/${category.image}`}
                       alt={category.title}
                       className="img-fluid w-100"
                       style={{ filter: "brightness(0.9)" }}

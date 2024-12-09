@@ -5,6 +5,7 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "../css/styles/style.css";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { API_URL } from "../config";
 
 const Pants = ({ addToCart }) => {
   const [pantsItems, setPantsItems] = useState([]);
@@ -47,7 +48,7 @@ const Pants = ({ addToCart }) => {
                     <div className="image-holder position-relative">
                       <Link to="/pants">
                         <img
-                          src={element.image}
+                          src={`${API_URL}/${element.image}`}
                           alt={element.attribute}
                           className="product-image img-fluid"
                         />

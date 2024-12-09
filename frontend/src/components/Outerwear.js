@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { API_URL } from '../config';
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
@@ -49,7 +50,7 @@ const Outerwear = ({ addToCart }) => {
                     <div className="image-holder position-relative">
                       <Link to="/outerwear">
                         <img
-                          src={element.image}
+                          src={`${API_URL}/${element.image}`}
                           alt={element.attribute}
                           className="product-image img-fluid"
                         />

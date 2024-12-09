@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { API_URL } from '../config';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
@@ -57,7 +58,7 @@ const BestSelling = () => {
     console.log("Fetching data");
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:8080/homepage-data");
+        const response = await fetch(`${API_URL}/homepage-data`);
         const data = await response.json();
         setItems(data.homePageBestSellingImages);
         console.log("Fetched homepage data:", data.homePageBestSellingImages); // Debugging log
@@ -93,7 +94,7 @@ const BestSelling = () => {
                   <div className="image-holder">
                     <Link to="/outerwear">
                       <img
-                        src={item.image}
+                        src={`${API_URL}/${item.image}`}
                         alt={item.attribute}
                         className="product-image img-fluid"
                       />

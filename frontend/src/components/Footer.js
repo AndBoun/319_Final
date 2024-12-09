@@ -12,7 +12,7 @@ const Footer = () => {
               <div className="footer-intro mb-4">
               <Link className="navbar-brand text-white" to="/">
                   <img
-                    src="./myotherimages/logo.png"
+                    src="http://localhost:8080/myotherimages/logo.png"
                     alt="logo"
                     style={{ width: '200px', height: 'auto' }}
                   />

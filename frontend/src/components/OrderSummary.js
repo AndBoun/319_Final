@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { Container, Card, ListGroup, Button } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
+import { API_URL } from "../config";
 
 function OrderSummary({ cartItems, setCartItems, total, setTotal, formData }) {
   const navigate = useNavigate();
@@ -76,7 +77,7 @@ function OrderSummary({ cartItems, setCartItems, total, setTotal, formData }) {
             >
               <div className="d-flex align-items-center">
                 <img
-                  src={item.image}
+                  src={`${API_URL}/${item.image}`}
                   alt={item.attribute}
                   style={{
                     width: "50px",

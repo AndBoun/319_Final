@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { API_URL } from '../config';
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const AccountPage = () => {
@@ -91,7 +92,7 @@ const AccountPage = () => {
                         <div className="d-flex flex-wrap">
                           {order.items.map((item, itemIndex) => (
                             <div key={itemIndex} className="text-center me-3 mb-3">
-                              <img src={item.image} alt={item.name} style={{ width: '100px', height: '100px' }} />
+                              <img src={`${API_URL}/${item.image}`} alt={item.name} style={{ width: '100px', height: '100px' }} />
                             </div>
                           ))}
                         </div>

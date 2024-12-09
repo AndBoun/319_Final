@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import { API_URL } from '../config';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/normalize.css";
 import "../css/sign-in.css";
@@ -46,7 +46,7 @@ const MainPicture = () => {
               {mainImage ? (
                 <div className="video-image img-fluid">
                   <img
-                    src={mainImage.image}
+                    src={`${API_URL}/${mainImage.image}`}
                     alt={mainImage.attribute || "Image"}
                     className="video-image img-fluid"
                   />

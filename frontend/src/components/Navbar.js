@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import { Link } from 'react-router-dom';
+import { API_URL } from '../config';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
@@ -52,7 +53,7 @@ const Navbar = ({cartItems,  setCartItems, total, setTotal}) => {
         <div className="row justify-content-between align-items-center w-100">
           <div className="col-auto">
             <Link className="navbar-brand text-white" to="/">
-              <img src={`${process.env.PUBLIC_URL}/myotherimages/logo.png`} alt="logo" style={{ width: '200px', height: 'auto' }} />
+              <img src={`${API_URL}/myotherimages/logo.png`} alt="logo" style={{ width: '200px', height: 'auto' }} />
             </Link>
           </div>
           <div className="col-auto">
