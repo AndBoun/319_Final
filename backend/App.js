@@ -39,6 +39,9 @@ if (!fs.existsSync("images")) {
   fs.mkdirSync("images");
 }
 
+
+
+
 const client = new MongoClient(uri, {
   serverApi: {
     version: ServerApiVersion.v1,
@@ -213,6 +216,8 @@ async function run() {
       }
     });
 
+    
+
     app.get("/pants-data", async (req, res) => {
       try {
         const collection = db.collection("Pants");
@@ -232,9 +237,11 @@ async function run() {
       }
     });
 
-    app.post('/add-outerwear', async (req, res) => {
+    app.post('/add-outerwear', upload.single('image'), async (req, res) => {
       try {
-        const { item, productDescription, price, image, attribute } = req.body;
+        const { item, productDescription, price, attribute } = req.body;
+        const image = req.file;
+    
         console.log('Received data for adding outerwear:', { item, productDescription, price, image, attribute });
     
         if (!item || !productDescription || !price || !image || !attribute) {
@@ -245,7 +252,7 @@ async function run() {
         const collection = db.collection('Outerwear');
         const result = await collection.updateOne(
           { mainTitle: 'Outerwear' },
-          { $push: { OuterwearPageShop: { item, productDescription, price, image, attribute } } }
+          { $push: { OuterwearPageShop: { item, productDescription, price, image: image.path, attribute } } }
         );
     
         if (result.matchedCount === 0) {
@@ -260,10 +267,23 @@ async function run() {
         res.status(500).json({ error: 'Failed to add outerwear item' });
       }
     });
-    
-    app.post('/add-pants', async (req, res) => {
+
+    app.post("/upload-image", upload.single("image"), (req, res) => {
       try {
-        const { item, productDescription, price, image, attribute } = req.body;
+        console.log('Uploaded file:', req.file); // Check the uploaded file
+        console.log('Request body:', req.body); // Check other form data
+        res.status(200).json({ message: "Image uploaded successfully", filePath: req.file.path });
+      } catch (error) {
+        console.error("Error uploading image:", error);
+        res.status(500).json({ error: "Failed to upload image" });
+      }
+    });
+    
+    app.post('/add-pants', upload.single('image'), async (req, res) => {
+      try {
+        const { item, productDescription, price, attribute } = req.body;
+        const image = req.file;
+    
         console.log('Received data for adding pants:', { item, productDescription, price, image, attribute });
     
         if (!item || !productDescription || !price || !image || !attribute) {
@@ -273,7 +293,7 @@ async function run() {
         const collection = db.collection('Pants');
         const result = await collection.updateOne(
           { mainTitle: 'Pants' },
-          { $push: { PantsPageShop: { item, productDescription, price, image, attribute } } }
+          { $push: { PantsPageShop: { item, productDescription, price, image: image.path, attribute } } }
         );
     
         if (result.matchedCount === 0) {

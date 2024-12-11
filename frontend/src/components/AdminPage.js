@@ -11,27 +11,33 @@ const AdminPage = () => {
 
   const onSubmit = async (data, endpoint, formReset) => {
     try {
+      const formData = new FormData();
+      Object.entries(data).forEach(([key, value]) => {
+        if (key === "image") {
+          if (value && value.length > 0) {
+            formData.append(key, value[0]); // File
+          }
+        } else {
+          formData.append(key, value); // Other fields
+        }
+      });
+
       const response = await fetch(`${API_URL}/${endpoint}`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
+        body: formData,
       });
 
       if (response.ok) {
-        console.log("Item added successfully");
-        formReset(); // Reset the specific form fields
-        setServerError(''); // Clear any previous errors
+        formReset();
         alert('Item added successfully');
         navigate('/');
       } else {
         const result = await response.json();
+        console.error('Error:', result.error);
         setServerError(result.error || 'Failed to add item');
-        console.log("Failed to add item:", result.error);
       }
     } catch (error) {
-      console.error("Error adding item:", error);
+      console.error('Error:', error);
       setServerError('Failed to add item');
     }
   };
@@ -39,15 +45,15 @@ const AdminPage = () => {
   return (
     <div className="container mt-5">
       <h2>Admin Page</h2>
-      
+
       {/* Add Outerwear Form */}
       <form
         onSubmit={outerwearForm.handleSubmit((data) =>
           onSubmit(data, 'add-outerwear', outerwearForm.reset)
         )}
+        encType="multipart/form-data"
       >
         <h3>Add Outerwear</h3>
-        {/* Outerwear Fields */}
         <div className="mb-3">
           <label className="form-label">Item</label>
           <input className="form-control" {...outerwearForm.register("item", { required: "Item is required" })} />
@@ -70,8 +76,12 @@ const AdminPage = () => {
           )}
         </div>
         <div className="mb-3">
-          <label className="form-label">Image URL</label>
-          <input className="form-control" {...outerwearForm.register("image", { required: "Image URL is required" })} />
+          <label className="form-label">Image</label>
+          <input
+            type="file"
+            className="form-control"
+            {...outerwearForm.register("image", { required: "Image file is required" })}
+          />
           {outerwearForm.formState.errors.image && (
             <div className="invalid-feedback">{outerwearForm.formState.errors.image.message}</div>
           )}
@@ -91,9 +101,9 @@ const AdminPage = () => {
         onSubmit={pantsForm.handleSubmit((data) =>
           onSubmit(data, 'add-pants', pantsForm.reset)
         )}
+        encType="multipart/form-data"
       >
         <h3>Add Pants</h3>
-        {/* Pants Fields */}
         <div className="mb-3">
           <label className="form-label">Item</label>
           <input className="form-control" {...pantsForm.register("item", { required: "Item is required" })} />
@@ -116,8 +126,12 @@ const AdminPage = () => {
           )}
         </div>
         <div className="mb-3">
-          <label className="form-label">Image URL</label>
-          <input className="form-control" {...pantsForm.register("image", { required: "Image URL is required" })} />
+          <label className="form-label">Image</label>
+          <input
+            type="file"
+            className="form-control"
+            {...pantsForm.register("image", { required: "Image file is required" })}
+          />
           {pantsForm.formState.errors.image && (
             <div className="invalid-feedback">{pantsForm.formState.errors.image.message}</div>
           )}
