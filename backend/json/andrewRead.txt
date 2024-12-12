@@ -1,4 +1,0 @@
-the json files are just there for temporary reasons
-
-username: coms3190
-pass: KtCbNpJx1ifdcqdJ

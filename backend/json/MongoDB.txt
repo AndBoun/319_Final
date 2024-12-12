@@ -1,0 +1,7 @@
+MongoDB
+
+The instance of MongoDB is a cloud instance
+and should be ready to use without any modifications
+
+username: coms3190
+pass: KtCbNpJx1ifdcqdJ
