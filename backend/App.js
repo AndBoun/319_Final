@@ -312,11 +312,25 @@ async function run() {
       try {
         const email = req.user.email;
         const collection = usersDb.collection("users");
-        const result = await collection.deleteOne({ email });
+    
+        // Find the user by email
+        const user = await collection.findOne({ email });
+    
+        if (!user) {
+          return res.status(404).json({ error: 'User not found' });
+        }
+    
+        const userId = user._id;
+    
+        // Delete the user
+        const result = await collection.deleteOne({ _id: userId });
     
         if (result.deletedCount === 0) {
           return res.status(404).json({ error: 'User not found' });
         }
+    
+        // Delete all orders associated with the user
+        const ordersResult = await usersDb.collection('Orders').deleteMany({ userId: userId });
     
         res.status(200).json({ message: 'Account deleted successfully' });
       } catch (error) {
