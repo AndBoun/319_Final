@@ -8,7 +8,37 @@ const AccountPage = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [serverError, setServerError] = useState('');
   const navigate = useNavigate();
+
+  const deleteAccount = async () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      alert('You must be logged in to delete your account');
+      return;
+    }
+
+    try {
+      const response = await fetch(`${API_URL}/delete-account`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        alert('Account deleted successfully');
+        localStorage.removeItem('token');
+        navigate('/login');
+      } else {
+        const result = await response.json();
+        setServerError(result.error || 'Failed to delete account');
+      }
+    } catch (error) {
+      console.error('Error deleting account:', error);
+      setServerError('Failed to delete account');
+    }
+  };
 
   useEffect(() => {
     // Fetch account information and orders from the backend
@@ -108,7 +138,8 @@ const AccountPage = () => {
                 <p>No current orders.</p>
               )}
               <div className="text-center mt-3">
-                <Link to="/" className="btn btn-primary">Back to Home</Link>
+                <Link to="/" className="btn btn-primary me-2">Back to Home</Link>
+                <button onClick={deleteAccount} className="btn btn-danger">Delete Account</button>
               </div>
             </div>
           </div>

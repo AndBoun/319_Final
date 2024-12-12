@@ -278,7 +278,8 @@ async function run() {
         res.status(500).json({ error: "Failed to upload image" });
       }
     });
-    
+
+
     app.post('/add-pants', upload.single('image'), async (req, res) => {
       try {
         const { item, productDescription, price, attribute } = req.body;
@@ -304,6 +305,24 @@ async function run() {
       } catch (error) {
         console.error("Error adding pants item:", error);
         res.status(500).json({ error: "Failed to add pants item" });
+      }
+    });
+
+
+    app.delete('/delete-account', authenticateUser, async (req, res) => {
+      try {
+        const email = req.user.email;
+        const collection = usersDb.collection("users");
+        const result = await collection.deleteOne({ email });
+    
+        if (result.deletedCount === 0) {
+          return res.status(404).json({ error: 'User not found' });
+        }
+    
+        res.status(200).json({ message: 'Account deleted successfully' });
+      } catch (error) {
+        console.error("Error deleting account:", error);
+        res.status(500).json({ error: "Failed to delete account" });
       }
     });
 
@@ -340,6 +359,7 @@ async function run() {
         res.status(500).json({ error: "Failed to create order" });
       }
     });
+
 
     app.get(`/categories`, async (req, res) => {
       try {
