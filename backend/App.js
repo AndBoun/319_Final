@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const path = require("path");
 const bcrypt = require("bcrypt");
 const fs = require("fs"); // Add this at the top
@@ -117,6 +117,17 @@ async function run() {
       }
     });
 
+    app.get('/items', async (req, res) => {
+      try {
+        const collection = db.collection("Outerwear");
+        const items = await collection.find({}).toArray();
+        res.status(200).json(items);
+      } catch (error) {
+        console.error('Error fetching items:', error);
+        res.status(500).json({ error: 'Failed to fetch items' });
+      }
+    });
+    
     app.get("/homepage-data", async (req, res) => {
       try {
         const collection = db.collection("homepage");
@@ -155,18 +166,16 @@ async function run() {
     });
 
     const authenticateUser = (req, res, next) => {
-      // Example: Check for a token in the request headers
       const authHeader = req.headers.authorization;
       if (!authHeader) {
         return res.status(401).json({ error: "Unauthorized" });
       }
 
-      const token = authHeader.split(" ")[1]; // Extract the token from the "Bearer <token>" format
+      const token = authHeader.split(" ")[1]; 
       if (!token) {
         return res.status(401).json({ error: "Unauthorized" });
       }
 
-      // Verify the token and attach user information to req.user
       jwt.verify(token, "secret_key", (err, user) => {
         if (err) {
           return res.status(401).json({ error: "Unauthorized" });
@@ -199,9 +208,9 @@ async function run() {
     app.get("/outerwear-data", async (req, res) => {
       try {
         const collection = db.collection("Outerwear");
-        console.log("Fetching data from 'Outerwear' collection"); // Debugging log
+        console.log("Fetching data from 'Outerwear' collection");
         const data = await collection.find({}).toArray();
-        console.log("Fetched data:", data); // Debugging log
+        console.log("Fetched data:", data); 
         if (!data || data.length === 0) {
           res
             .status(404)
@@ -220,9 +229,9 @@ async function run() {
     app.get("/pants-data", async (req, res) => {
       try {
         const collection = db.collection("Pants");
-        console.log("Fetching data from 'Pants' collection"); // Debugging log
+        console.log("Fetching data from 'Pants' collection"); 
         const data = await collection.find({}).toArray();
-        console.log("Fetched data:", data); // Debugging log
+        console.log("Fetched data:", data); 
         if (!data || data.length === 0) {
           res
             .status(404)
@@ -269,8 +278,8 @@ async function run() {
 
     app.post("/upload-image", upload.single("image"), (req, res) => {
       try {
-        console.log('Uploaded file:', req.file); // Check the uploaded file
-        console.log('Request body:', req.body); // Check other form data
+        console.log('Uploaded file:', req.file);
+        console.log('Request body:', req.body); 
         res.status(200).json({ message: "Image uploaded successfully", filePath: req.file.path });
       } catch (error) {
         console.error("Error uploading image:", error);
@@ -308,6 +317,7 @@ async function run() {
     });
 
 
+
     app.delete('/delete-account', authenticateUser, async (req, res) => {
       try {
         const email = req.user.email;
@@ -338,6 +348,7 @@ async function run() {
         res.status(500).json({ error: "Failed to delete account" });
       }
     });
+
 
     app.post("/create-order", async (req, res) => {
       try {
