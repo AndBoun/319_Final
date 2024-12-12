@@ -58,31 +58,30 @@ async function run() {
     const db = client.db("products"); // Database name
     const usersDb = client.db("Users"); // Database name
 
-    app.post("/register", async (req, res) => {
+    app.post('/register', async (req, res) => {
       try {
         const { email, password } = req.body;
         const collection = usersDb.collection("users");
-
+    
         // Check if the email is already used
         const existingUser = await collection.findOne({ email });
         if (existingUser) {
-          return res.status(400).json({ error: "Email is already used" });
+          return res.status(400).json({ error: 'Email is already used' });
         }
-
+    
         const hashedPassword = await bcrypt.hash(password, 10); // Hash the password
         const result = await collection.insertOne({
           email,
           password: hashedPassword,
         });
-        res
-          .status(201)
-          .json({
-            message: "User registered successfully",
-            userId: result.insertedId,
-          });
+    
+        res.status(201).json({
+          message: 'User registered successfully',
+          userId: result.insertedId,
+        });
       } catch (error) {
-        console.error("Error registering user:", error);
-        res.status(500).json({ error: "Failed to register user" });
+        console.error('Error registering user:', error);
+        res.status(500).json({ error: 'Failed to register user' });
       }
     });
 
