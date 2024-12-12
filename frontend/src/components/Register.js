@@ -14,7 +14,7 @@ const Register = () => {
   const [serverError, setServerError] = useState('');
   const onSubmit = async (data) => {
     try {
-      const response = await fetch(`${API_URL}}/register`, {
+      const response = await fetch(`${API_URL}/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -29,11 +29,11 @@ const Register = () => {
         setServerError(result.error); // Set the server error message
         console.log("Registration failed:", result.error);
       }
-    } catch (error) {
-      console.error("Error registering user:", error);
-      setServerError('Failed to register user'); // Set a generic error message
-    }
-  };
+      } catch (error) {
+        console.error("Error registering user:", error);
+        setServerError('Failed to register user'); // Set a generic error message
+      }
+      };
 
   return (
     <div className="container mt-5">
